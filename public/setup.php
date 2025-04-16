@@ -21,6 +21,6 @@ define('IS_INITIAL', $cfg->configuration->initial === 'On');
 
 define('REQUESTED_URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
 // TODO Get the backoffice prefix from the DB
-define('BACKOFFICE_PREFIX', '/panel');
+define('BACKOFFICE_PREFIX', 'panel');
 
 // End Constant definition

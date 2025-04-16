@@ -11,6 +11,7 @@ class Parse {
      * 
      */
     public static function CFG():stdClass {
+        // TODO Check if native parse_ini is faster
         require_once("{$_SERVER['DOCUMENT_ROOT']}/../lib/functions.inc.php");
         $cfg = explode("\n", self::_GetFile(GetRootPath().'initial.cfg'));
 

@@ -15,7 +15,17 @@ if($uri_array[0] === BACKOFFICE_PREFIX) {
     $router = new FrontRouter();
 }
 
-$router->Handle();
+$router->Handle($uri_array);
 $result = $router->Invoke();
 
-// TODO Handle the result based on type -> json|xml, html
+$final_result = '';
+switch($result->type) {
+    case 'string':
+        $final_result = $result->content;
+    break;
+    default:
+        Header('Location: /not_found');
+    break;
+}
+
+echo $final_result;

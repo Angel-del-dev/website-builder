@@ -7,7 +7,8 @@ class FrontRouter extends Router{
         parent::__construct();
     }
 
-    public function Handle() {
-        
+    public function Handle(array $uri) {
+        print_r('TODO');
+        exit;
     }
 }

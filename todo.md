@@ -1,8 +1,8 @@
 # TODO
 
 * Backoffice
-    * [ ] Route handler
-    * [ ] Auth handler
+    * [X] Route handler
+    * [X] Auth handler
     * [ ] Login
         * [ ] View
         * [ ] Process
