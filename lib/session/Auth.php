@@ -29,7 +29,7 @@ class Auth {
      * 
      */
     public static function Get(string $section, string $key):null|int|string|array|stdClass {
-        if(!isset($_SECTION[$section][$key])) return null;
+        if(!isset($_SESSION[$section][$key])) return null;
         return $_SESSION[$section][$key];
     }
     /**
@@ -66,5 +66,8 @@ class Auth {
     public static function Setup():void {
         if(isset($_SESSION['login'])) return;
         $_SESSION['login'] = [];
+        $_SESSION['config'] = [
+            'lang' => 'en'
+        ];
     }
 }

@@ -2,6 +2,8 @@
 
 * General
     * [ ] Text based on language
+        * [X] Server side
+        * [ ] Client side
 * Backoffice
     * [X] Route handler
     * [X] Auth handler

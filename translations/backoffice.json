@@ -1,0 +1,10 @@
+{
+    "translation-not-found": {
+        "en": "Translation not available",
+        "es": "Traducción no disponible"
+    },
+    "login-title": {
+        "en": "Titulo por defecto",
+        "es": "Default title"
+    }
+}
