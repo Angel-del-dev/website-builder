@@ -80,7 +80,10 @@ class BackofficePage {
         $v = date('His');
 
         if($this->_import_default_styles) {
-            $head .= " <link rel='stylesheet' href='/css/backoffice/Generic.css?v={$v}'> ";
+            $head .= "
+                <link rel='stylesheet' href='/css/backoffice/Variables.css?v={$v}'>
+                <link rel='stylesheet' href='/css/Generic.css?v={$v}'>
+            ";
         }
 
         foreach($this->_resources as $resource) {

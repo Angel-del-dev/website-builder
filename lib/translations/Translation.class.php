@@ -11,7 +11,6 @@ class Translation {
      */
     public static function GetAllTranslationsFromLocation(string $location):array {
         $file = file_get_contents(sprintf("%s/../translations/%s.json", $_SERVER['DOCUMENT_ROOT'], $location));
-        // TODO Add to log
         return json_decode($file, true);
     }
 
