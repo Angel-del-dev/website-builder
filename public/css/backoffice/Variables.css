@@ -1,3 +1,14 @@
 :root {
-    
+    --root-background-color: whitesmoke;
+
+    /* Colors */
+    --red: #B33F40;
+    --green: #66A586;
+    --orange: #F8D568;
+    --blue: #4147C0;
+    --lightgray: #C5C6C7;
+    --light: #F0F8FB;
+    --lightblue: #96AED0;
+    --white: #F8F9FA;
+    --black: #1B1B1B;
 }

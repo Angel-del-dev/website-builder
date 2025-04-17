@@ -7,8 +7,11 @@ class Renderer {
         $this->_components = [];
     }
 
-    private function RequireClass(string $class) {
-        require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/BackofficeRenderer/{$class}.class.php");
+    private function RequireClass(string $file, string $class):mixed {
+        require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/BackofficeRenderer/{$file}.class.php");
+        $obj = new $class();
+        $this->_components[] = $obj;
+        return $obj;
     }
     
     /**
@@ -26,36 +29,77 @@ class Renderer {
         return $html;
     }
 
-    /**
-     * [Adds a h1 element to the page creation]
-     *
-     * @return H1
-     * 
-     */
-    public function H1():H1 {
-        $this->RequireClass('H1');
-        $obj = new H1();
-
-        $this->_components[] = $obj;
-        
+    public function H1(string $caption):H1 {
+        $obj = $this->RequireClass('Titles', 'H1');
+        $obj->SetText($caption);
+        return $obj;
+    }
+    public function H2(string $caption):H2 {
+        $obj = $this->RequireClass('Titles', 'H2');
+        $obj->SetText($caption);
+        return $obj;
+    }
+    public function H3(string $caption):H3 {
+        $obj = $this->RequireClass('Titles', 'H3');
+        $obj->SetText($caption);
+        return $obj;
+    }
+    public function H4(string $caption):H4 {
+        $obj = $this->RequireClass('Titles', 'H4');
+        $obj->SetText($caption);
+        return $obj;
+    }
+    public function H5(string $caption):H5 {
+        $obj = $this->RequireClass('Titles', 'H5');
+        $obj->SetText($caption);
+        return $obj;
+    }
+    public function H6(string $caption):H6 {
+        $obj = $this->RequireClass('Titles', 'H6');
+        $obj->SetText($caption);
         return $obj;
     }
 
     public function StartDiv():StartDiv {
-        $this->RequireClass('Div');
-        $obj = new StartDiv();
-
-        $this->_components[] = $obj;
-        
-        return $obj;
+        return $this->RequireClass('Div', 'StartDiv');
     }
 
     public function EndDiv():EndDiv {
-        $this->RequireClass('Div');
-        $obj = new EndDiv();
+        return $this->RequireClass('Div', 'EndDiv');
+    }
 
-        $this->_components[] = $obj;
-        
+    public function StartForm():StartForm {
+        return $this->RequireClass('Form', 'StartForm');
+    }
+    public function EndForm():EndForm {
+        return $this->RequireClass('Form', 'EndForm');
+    }
+
+    public function Text(string $id = '', string $default_value = ''):Text {
+        $obj = $this->RequireClass('Input', 'Text');
+        $obj->id = $id;
+        $obj->SetValue($default_value);
+        return $obj;
+    }
+
+    public function Password(string $id = '', string $default_value = ''):Password {
+        $obj = $this->RequireClass('Input', 'Password');
+        $obj->id = $id;
+        $obj->SetValue($default_value);
+        return $obj;
+    }
+
+    public function Hidden(string $id = '', string $default_value = ''):Hidden {
+        $obj = $this->RequireClass('Input', 'Hidden');
+        $obj->id = $id;
+        $obj->SetValue($default_value);
+        return $obj;
+    }
+
+    public function Button(string $id, string $caption):Button {
+        $obj = $this->RequireClass('Button', 'Button');
+        $obj->id = $id;
+        $obj->SetCaption($caption);
         return $obj;
     }
 }

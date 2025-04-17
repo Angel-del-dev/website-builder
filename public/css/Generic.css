@@ -1,3 +1,8 @@
+@font-face {
+    font-family: montserrat;
+    src: url('../fonts/Montserrat.ttf');
+}
+
 html,
 body {
     padding: 0; margin: 0; 
@@ -6,6 +11,7 @@ body {
 
 *, *::before, *::after {
     box-sizing: border-box;
+    font-family: montserrat;
 }
 
 /* Start flex */
@@ -52,6 +58,9 @@ body {
 .h-50 { height: 50%; }
 .h-25 { height: 25%; }
 .h-0 { height: 0; }
+
+.w-fit { width: fit-content; }
+.h-fit { height: fit-content; }
 /* End sizing */
 
 /* Start border */
@@ -79,7 +88,69 @@ body {
 .m-5 { margin: 25px; }
 /* End structure */
 
+/* Start text */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+/* End text */
+
 /* Start other */
 .d-none { display: none !important; }
 .pointer:hover { cursor: pointer; }
+.no-user-select { user-select: none; }
 /* End other */
+
+/* Start inputs */
+
+.pretty-input {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 1rem;
+}
+
+.pretty-input:focus {
+    outline: none;
+}
+
+/* End Inputs */
+
+/* Start button */
+
+button[class *= "btn"] {
+    border: 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+button[class *= "btn"]:not([disabled]):hover { cursor: pointer; }
+
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-danger,
+.btn-warning {
+    color: var(--white);
+}
+
+.btn-primary {
+    background-color: var(--blue);
+}
+.btn-secondary {
+    background-color: var(--lightgray);
+}
+.btn-success {
+    background-color: var(--green);
+}
+.btn-danger {
+    background-color: var(--red);
+}
+.btn-warning {
+    background-color: var(--orange);
+}
+button[class *= "btn"][disabled] {
+    background-color: var(--light);
+    color: var(--black);
+}
+
+/* End button */

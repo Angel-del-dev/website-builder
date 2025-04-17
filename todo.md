@@ -8,7 +8,7 @@
     * [X] Route handler
     * [X] Auth handler
     * [ ] Login
-        * [ ] View
+        * [X] View
         * [ ] Process
     * [ ] Aside with privileges
     * [ ] pre-alfa designer

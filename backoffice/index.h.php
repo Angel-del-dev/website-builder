@@ -12,6 +12,35 @@ class Page extends BackofficePage {
         $this->AddTitle(Translation::Get('backoffice', 'login-title'));
         $this->AddResource('style', '/css/backoffice/Login.css');
         $this->AddResource('script', '/js/backoffice/Login.js');
+
+        $d = $this->Renderer->StartDiv();
+        $d->class = ' w-100 h-100 flex justify-center align-center ';
+
+            $d = $this->Renderer->StartDiv();
+            $d->class = ' radius-1 flex justify-center align-center p-4 ';
+            $d->id = 'login';
+
+                $f = $this->Renderer->StartForm();
+                $f->id = 'login-form';
+                $f->action = '/';
+                $f->class .= ' flex justify-center align-center flex-column gap-2 ';
+
+                    $this->Renderer->H1(Translation::Get('backoffice', 'backoffice-name'));
+                    $text = $this->Renderer->Text('User');
+                    $text->class .= ' text-center ';
+                    $text->SetPlaceholder('Ej: test@gmail.com');
+
+                    $pswd = $this->Renderer->Password('Password');
+                    $pswd->class .= ' text-center ';
+                    $pswd->SetPlaceholder('XXXXXXX');
+
+                    $btn = $this->Renderer->Button('Submit', Translation::Get('backoffice', 'backoffice-login'));
+                    $btn->class .= " btn-primary w-100 ";
+                $this->Renderer->EndForm();
+
+            $this->Renderer->EndDiv();
+
+        $this->Renderer->EndDiv();
     }
 
     public function Post() {

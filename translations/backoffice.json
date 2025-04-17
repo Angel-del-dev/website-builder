@@ -6,5 +6,13 @@
     "login-title": {
         "en": "Default title",
         "es": "Titulo por defecto"
+    },
+    "backoffice-name": {
+        "en": "Backoffice",
+        "es": "Panel de control"
+    },
+    "backoffice-login": {
+        "en": "Sign-in",
+        "es": "Acceder"
     }
 }

@@ -1,0 +1,12 @@
+#root {
+    background-color: var(--root-background-color);
+}
+
+#login {
+    width: 300px;
+    min-height: 40vmin;
+    max-height: fit-content;
+    background-color: white;
+
+    box-shadow: 2px 2px 2px 2px lightgray;
+}
