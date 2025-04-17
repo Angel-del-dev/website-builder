@@ -12,7 +12,6 @@ class Page extends BackofficePage {
         $this->AddTitle(Translation::Get('backoffice', 'login-title'));
         $this->AddResource('style', '/css/backoffice/Login.css');
         $this->AddResource('script', '/js/backoffice/Login.js');
-        $this->_result = 'Handle login';
     }
 
     public function Post() {

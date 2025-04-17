@@ -1,10 +1,14 @@
 <?php
 
+require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/BackofficeRenderer/Renderer.class.php");
+
 class BackofficePage {
     private string $_method;
     private array $_resources;
     private bool $_import_default_styles;
     private string $_title;
+
+    protected Renderer $Renderer;
 
     protected string|stdClass|bool $_result;
     public function __construct() {
@@ -13,6 +17,7 @@ class BackofficePage {
         $this->_resources = [];
         $this->_import_default_styles = true;
         $this->_title = '';
+        $this->SetRenderer();
     }
 
     /**
@@ -121,6 +126,13 @@ class BackofficePage {
         ";
     }
 
+    private function SetRenderer():void {
+        $this->Renderer = new Renderer();
+        $div = $this->Renderer->StartDiv(); // Initial wrapper
+        $div->id = 'root';
+        $div->class = ' w-100 h-100 ';
+    }
+
     /**
      * [Creates the page]
      *
@@ -128,9 +140,11 @@ class BackofficePage {
      * 
      */
     private function GetPage():string {
+        $this->Renderer->EndDiv(); // Initial wrapper
+
         $html = '';
         $html .= $this->CreateHead();
-        $html .= $this->_result;
+        $html .= $this->Renderer->Render();
         $html .= $this->CreateEnd();
         return $html;
     }
