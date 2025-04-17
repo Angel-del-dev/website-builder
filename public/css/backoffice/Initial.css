@@ -1,0 +1,16 @@
+#initial-container {
+    width: 500px;
+    transition: width .1s linear;
+}
+
+@media (max-width: 900px) {
+    #initial-container {
+        width: 70svw;
+    }
+}
+
+@media (max-width: 500px) {
+    #initial-container {
+        width: 90svw;
+    }
+}

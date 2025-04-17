@@ -1,6 +1,12 @@
 :root {
     --root-background-color: whitesmoke;
 
+    /* Sizes */
+
+    --desktop-width: 1250px;
+    --tablet-width: 900px;
+    --mobile-width: 400px;
+
     /* Colors */
     --red: #B33F40;
     --green: #66A586;

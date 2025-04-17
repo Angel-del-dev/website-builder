@@ -1,4 +1,8 @@
 {
+    "languages-list": {
+        "en": "English",
+        "es": "Español"
+    },
     "translation-not-found": {
         "en": "Translation not available",
         "es": "Traducción no disponible"
@@ -22,5 +26,17 @@
     "account-blocked": {
         "en": "Account blocked",
         "es": "Cuenta bloqueada"
+    },
+    "initial-process-title": {
+        "en": "Setup",
+        "es": "Proceso inicial"
+    },
+    "initial-alert-process":  {
+        "en": "*This process will reset the application's configuration, if the application has been configured previously or you have any doubts, please contact your administrator*",
+        "es": "*Este proceso restablecerá la configuración de la aplicación, si su página ha sido configurada anteriormente o tiene alguna duda, porfavor contacte con su administrador*"
+    },
+    "initial-backoffice-prefix": {
+        "en": "Backoffice route prefix",
+        "es": "Prefijo de ruta para el panel de administrador"
     }
 }

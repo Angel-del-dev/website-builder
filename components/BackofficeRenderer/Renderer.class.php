@@ -102,4 +102,26 @@ class Renderer {
         $obj->SetCaption($caption);
         return $obj;
     }
+
+    public function Select(string $id = '', string $value = ''):Select {
+        $obj = $this->RequireClass('Select', 'Select');
+        $obj->id = $id;
+        $obj->SetValue($value);
+        return $obj;
+    }
+
+    public function Separator(string $thickness = '', string $color = '', string $width = ''):Separator {
+        $obj = $this->RequireClass('Separator', 'Separator');
+        $obj->SetThickness($thickness);
+        $obj->SetColor($color);
+        $obj->SetWidth($width);
+        return $obj;
+    }
+
+    public function Label(string $caption = '', bool $isBold):Label {
+        $obj = $this->RequireClass('Label', 'Label');
+        $obj->SetCaption($caption);
+        $obj->IsBold($isBold);
+        return $obj;
+    }
 }

@@ -92,12 +92,17 @@ body {
 .text-left { text-align: left; }
 .text-center { text-align: center; }
 .text-right { text-align: right; }
+.text-justify { text-align: justify; }
 /* End text */
 
 /* Start other */
 .d-none { display: none !important; }
 .pointer:hover { cursor: pointer; }
 .no-user-select { user-select: none; }
+.overflow-y { overflow-y: auto; }
+.overflow-x { overflow-x: auto; }
+.no-overflow-y { overflow-y: hidden; }
+.no-overflow-x { overflow-x: hidden; }
 /* End other */
 
 /* Start inputs */
@@ -121,6 +126,40 @@ body {
 }
 
 /* End Inputs */
+
+/* Select */
+
+.fancy-select {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 1rem;
+    min-width: 10vmin;
+    max-width: fit-content;
+}
+
+.fancy-select:focus {
+    outline: none;
+}
+
+.fancy-select:hover {
+    cursor: pointer;
+}
+
+/* Select */
+
+/* Start shadows */
+
+.shadow-small { box-shadow: 2px 2px 2px 2px lightgray; }
+
+/* End shadows */
+
+/* Start font */
+.font-bold { font-weight: bold; }
+.font-normal { font-weight: normal; }
+.font-lighter { font-weight: lighter; }
+.font-bolder { font-weight: bolder; }
+/* End font */
 
 /* Start button */
 

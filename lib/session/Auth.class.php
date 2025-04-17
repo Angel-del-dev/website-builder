@@ -43,7 +43,10 @@ class Auth {
      * 
      */
     public static function Set(string $section, string $key, $value):void {
-        if(!isset($_SECTION[$section][$key])) return;
+        if(!isset($_SESSION[$section][$key])) {
+            Log::Entry(sprintf(" SESSION route not found '%s'->'%s' ", $section, $key));
+            return;
+        }
         $_SESSION[$section][$key] = $value;
     }
 
@@ -73,5 +76,9 @@ class Auth {
 
     public static function IsLogged():bool {
         return self::Get('login', 'name') !== '';
+    }
+
+    public static function Lang():string {
+        return self::Get('config', 'lang');
     }
 }

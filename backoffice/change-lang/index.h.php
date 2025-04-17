@@ -9,13 +9,12 @@ class Page extends BackofficePage {
     }
 
     public function Get() {
-        if(!Auth::IsLogged()) {
-            header(sprintf('Location: /%s', BACKOFFICE_PREFIX));
-            return;
-        }
-        if(IS_INITIAL) {
-            header(sprintf('Location: /%s/initial', BACKOFFICE_PREFIX));
-            return;
-        }
+        header(sprintf('Location: /%s/home', BACKOFFICE_PREFIX));
+    }
+
+    public function Post(array $params) {
+        $result = new stdClass();
+        Auth::Set('config', 'lang', $params['Lang']);
+        $this->_result = $result;
     }
 }
