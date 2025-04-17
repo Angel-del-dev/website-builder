@@ -4,10 +4,10 @@ session_start();
 require_once("{$_SERVER['DOCUMENT_ROOT']}/../lib/functions.inc.php");
 $root_path = GetRootPath();
 
-require_once("{$root_path}/lib/session/Auth.php");
+require_once("{$root_path}/lib/session/Auth.class.php");
 Auth::Setup();
 
-require_once("{$root_path}/lib/files/Parse.php");
+require_once("{$root_path}/lib/files/Parse.class.php");
 $cfg = Parse::CFG();
 
 // Start Constant definition
