@@ -72,6 +72,7 @@ class BackofficePage {
      */
     private function CreateHead():string {
         $head = '';
+        $panel_prefix = BACKOFFICE_PREFIX;
         $head .= sprintf("
             <!DOCTYPE html>
                 <html lang='%s'>
@@ -79,6 +80,10 @@ class BackofficePage {
                     <meta charset='UTF-8'>
                     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
                     <title>{$this->_title}</title>
+                    <script>
+                        const BACKOFFICE_PREFIX = `{$panel_prefix}`;
+                    </script>
+                    <script src='/js/components/global.inc.js'></script>
             
         ", Auth::Get('config', 'lang'));
 

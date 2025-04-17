@@ -11,7 +11,7 @@ class Page extends BackofficePage {
     public function Get() {
         $this->AddTitle(Translation::Get('backoffice', 'login-title'));
         $this->AddResource('style', '/css/backoffice/Login.css');
-        $this->AddResource('script', '/js/backoffice/Login.js');
+        $this->AddResource('script', '/js/backoffice/Login.page.js', true);
 
         $d = $this->Renderer->StartDiv();
         $d->class = ' w-100 h-100 flex justify-center align-center ';
@@ -34,6 +34,11 @@ class Page extends BackofficePage {
                     $pswd->class .= ' text-center ';
                     $pswd->SetPlaceholder('XXXXXXX');
 
+                    $h1 = $this->Renderer->H1(Translation::Get('backoffice', 'invalid-credentials'));
+                    $h1->id = 'error';
+                    $h1->class = ' d-none ';
+                    $h1->style = ' font-size: .9rem; color: var(--red); ';
+
                     $btn = $this->Renderer->Button('Submit', Translation::Get('backoffice', 'backoffice-login'));
                     $btn->class .= " btn-primary w-100 ";
                 $this->Renderer->EndForm();
@@ -43,7 +48,9 @@ class Page extends BackofficePage {
         $this->Renderer->EndDiv();
     }
 
-    public function Post() {
+    public function Post(array $params) {
         // TODO Handle post Login
+        print_r($params);
+        exit;
     }
 }

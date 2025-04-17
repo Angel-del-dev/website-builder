@@ -1,4 +1,5 @@
 ## Values
+### PHP
 ```php
     // Global variables
     string $cfg
@@ -10,6 +11,12 @@
     string|null BACKOFFICE_PREFIX
 ```
 
+### JS
+```js
+    // Global constants
+    BACKOFFICE_PREFIX
+```
+
 ## Naming convention
 ```ini
     # PHP
@@ -17,5 +24,9 @@
     class = *.class.php
     class_with_inheritance = *.h.php
     # JS
+    page_scripts = *.page.js
+    library = *.inc.js
     # DB
+    initial_schema = *.db
+    scripts_executed_by_application = *.script.sql
 ```

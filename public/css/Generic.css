@@ -113,6 +113,13 @@ body {
     outline: none;
 }
 
+.pretty-input[type="text"].error,
+.pretty-input[type="password"].error,
+.pretty-input.error::placeholder {
+    color: var(--white);
+    background-color: var(--red);
+}
+
 /* End Inputs */
 
 /* Start button */

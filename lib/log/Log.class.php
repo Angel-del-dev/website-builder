@@ -17,6 +17,7 @@ class Log {
      * 
      */
     public static function Entry(string $message):void {
+        $cfg = Parse::CFG();
         $log_path = self::CreateOrGetLog();
         $log = file_get_contents($log_path);
         $log .= sprintf("%s %s\n", date('d-m-Y H:i:s'), $message);

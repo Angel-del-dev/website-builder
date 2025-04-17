@@ -9,6 +9,7 @@ class Input {
     protected null|string $placeholder;
     public bool $readonly;
     public bool $disabled;
+    public int $maxlength;
     public function __construct(string $id, string|bool $value) {
         $this->id = $id;
         $this->class = ' pretty-input ';
@@ -18,6 +19,7 @@ class Input {
         $this->placeholder = null;
         $this->disabled = false;
         $this->readonly = false;
+        $this->maxlength = 0;
     }
 
     protected function Type(string $type = 'text') {
@@ -29,7 +31,7 @@ class Input {
     }
 
     public function SetValue(bool|string $value):void {
-        $this->value = $value;;
+        $this->value = $value;
     }
 
     public function Render() {
@@ -37,19 +39,22 @@ class Input {
         $class = strlen(trim($this->class)) > 0 ? "class='{$this->class}'" : '';
         $style = strlen(trim($this->style)) > 0 ? "style='{$this->style}'" : '';
         $placeholder = is_null($this->placeholder) ? '' : " placeholder='{$this->placeholder}' ";
-        $value = $this->value;
+        $value = '';
         $disabled = $this->disabled ? ' disabled ' : '';
         $readonly = $this->readonly ? ' readonly ' : '';
+        $maxlength = $this->maxlength > 0 ? " maxlength='{$this->maxlength}' " : '';
 
-        if(!in_array(strtoupper($this->type), ['TEXT', 'PASSWORD', 'HIDDEN'])) {
+        if(in_array(strtoupper($this->type), ['CHECKBOX', 'RADIO'])) {
             $value = $this->value ? " checked " : '';
+        } else {
+            if(strlen(trim($this->value)) > 0) $value = " value='{$this->value}' ";
         }
 
         return "
             <input
                 type='{$this->type}'
                 {$id} {$class} {$style} {$placeholder}
-                {$value} {$readonly} {$disabled}
+                {$value} {$readonly} {$disabled} {$maxlength}
             />
         ";
     }

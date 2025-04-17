@@ -14,5 +14,9 @@
     "backoffice-login": {
         "en": "Sign-in",
         "es": "Acceder"
+    },
+    "invalid-credentials": {
+        "en": "Invalid credentials",
+        "es": "El usuario o la contraseña es incorrecto"
     }
 }

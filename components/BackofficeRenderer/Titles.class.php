@@ -5,11 +5,13 @@ class Title {
     public string $class;
     public string $style;
     protected string $tag;
+    public string $id;
     public function __construct() {
         $this->_text = '';
         $this->class = ' p-0 m-0 ';
         $this->style = '';
         $this->tag = 'h1';
+        $this->id = '';
     }
 
     public function SetText(string $text) {
@@ -17,10 +19,11 @@ class Title {
     }
 
     public function Render():string {
+        $id = strlen(trim($this->id)) > 0 ? "id='{$this->id}'" : '';
         $class = strlen(trim($this->class)) > 0 ? "class='{$this->class}'" : '';
         $style = strlen(trim($this->style)) > 0 ? "style='{$this->style}'" : '';
         return "
-            <{$this->tag} {$class} {$style}>
+            <{$this->tag} {$id} {$class} {$style}>
                 {$this->_text}
             </{$this->tag}>
         ";
