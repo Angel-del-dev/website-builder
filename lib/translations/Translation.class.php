@@ -17,9 +17,10 @@ class Translation {
 
     public static function Get(string $location, string $key):string {
         $translations = self::GetAllTranslationsFromLocation($location);
-        if(isset($translations[$key])) return $translations[$key][Auth::Get('config', 'lang')];
+        if(!isset($translations[$key])) Log::Entry(sprintf('Translation not found "%s"', $key));
+        if(!isset($translations[$key][Auth::Get('config', 'lang')])) Log::Entry(sprintf('Translation not found "%s" for language "%s"', $key, Auth::Get('config', 'lang')));
+        if(!isset($translations[$key]) || !isset($translations[$key][Auth::Get('config', 'lang')])) return $translations["translation-not-found"][Auth::Get('config', 'lang')];
 
-        // TODO Add to log
-        return $translations["translation-not-found"][Auth::Get('config', 'lang')];
+        return $translations[$key][Auth::Get('config', 'lang')];        
     }
 }

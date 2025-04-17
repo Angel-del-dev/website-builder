@@ -3,8 +3,8 @@
         "en": "Translation not available",
         "es": "Traducción no disponible"
     },
-    "login-title": {
-        "en": "Titulo por defecto",
-        "es": "Default title"
+    "login-titles": {
+        "en": "Default title",
+        "es": "Titulo por defecto"
     }
 }

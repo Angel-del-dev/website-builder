@@ -10,6 +10,8 @@ Auth::Setup();
 require_once("{$root_path}/lib/files/Parse.class.php");
 $cfg = Parse::CFG();
 
+require_once("{$root_path}/lib/log/Log.class.php");
+
 // Start Constant definition
 
 define('IS_DEPLOY', $cfg->configuration->deploy === 'On');
