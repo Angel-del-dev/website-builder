@@ -18,5 +18,9 @@
     "invalid-credentials": {
         "en": "Invalid credentials",
         "es": "El usuario o la contraseña es incorrecto"
+    },
+    "account-blocked": {
+        "en": "Account blocked",
+        "es": "Cuenta bloqueada"
     }
 }

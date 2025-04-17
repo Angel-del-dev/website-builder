@@ -6,6 +6,7 @@ USE BUILDER;
 
 DROP USER IF EXISTS 'superadmin'@'localhost';
 CREATE USER IF NOT EXISTS 'superadmin'@'localhost' IDENTIFIED BY 'ucrUzsibq5HOKC5ZVlpg1nRIc';
+GRANT ALL PRIVILEGES ON BUILDER.* TO 'superadmin'@'localhost';
 
 CREATE TABLE ROLES (
     ROLE VARCHAR(50) NOT NULL PRIMARY KEY,

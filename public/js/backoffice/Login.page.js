@@ -23,7 +23,13 @@ const login = async e => {
         data: { User, Password }
     });
 
-    console.log(message);
+    if(message !== '') {
+        ErrorNode.textContent = message;
+        ErrorNode.classList.remove('d-none');
+        return;
+    }
+
+    location.href = `/${BACKOFFICE_PREFIX}/home`;
 };
 
 document.getElementById('login-form').addEventListener('submit', login);

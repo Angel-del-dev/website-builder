@@ -17,7 +17,7 @@ class Auth {
      * 
      */
     public static function Destroy():void {
-        session_unset();
+        $_SESSION['login'] = [];
     }
     /**
      * [Description for Get]
@@ -69,5 +69,9 @@ class Auth {
         $_SESSION['config'] = [
             'lang' => 'en'
         ];
+    }
+
+    public static function IsLogged():bool {
+        return self::Get('login', 'name') !== '';
     }
 }

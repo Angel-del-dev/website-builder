@@ -4,11 +4,16 @@ require_once(sprintf('%s/../components/Page/Backoffice.class.php', $_SERVER['DOC
 require_once(sprintf('%s/../lib/translations/Translation.class.php', $_SERVER['DOCUMENT_ROOT']));
 
 class Page extends BackofficePage {
+    
     public function __construct() {
         parent::__construct();
     }
 
     public function Get() {
+        if(Auth::IsLogged()) {
+            Header(sprintf('Location: /%s/home', BACKOFFICE_PREFIX));
+            return;
+        }
         $this->AddTitle(Translation::Get('backoffice', 'login-title'));
         $this->AddResource('style', '/css/backoffice/Login.css');
         $this->AddResource('script', '/js/backoffice/Login.page.js', true);
@@ -34,9 +39,9 @@ class Page extends BackofficePage {
                     $pswd->class .= ' text-center ';
                     $pswd->SetPlaceholder('XXXXXXX');
 
-                    $h1 = $this->Renderer->H1(Translation::Get('backoffice', 'invalid-credentials'));
+                    $h1 = $this->Renderer->H1('');
                     $h1->id = 'error';
-                    $h1->class = ' d-none ';
+                    $h1->class = ' d-none m-0 p-0 ';
                     $h1->style = ' font-size: .9rem; color: var(--red); ';
 
                     $btn = $this->Renderer->Button('Submit', Translation::Get('backoffice', 'backoffice-login'));
@@ -48,9 +53,31 @@ class Page extends BackofficePage {
         $this->Renderer->EndDiv();
     }
 
-    public function Post(array $params) {
-        // TODO Handle post Login
-        print_r($params);
-        exit;
+    public function Post(array $params):void {
+        $this->_result['message'] = '';
+        $sql = $this->connection->newQuery("
+            SELECT NAME, EMAIL, ROLE, BLOCKED
+            FROM USERS
+            WHERE UPPER(NAME) = :NAME AND
+                PASSWORD = :PASSWORD
+        ");
+        $sql->params->NAME = strtoupper($params['User']);
+        $sql->params->PASSWORD = md5($params['Password']);
+        $Data = $sql->Execute();
+        $sql->close();
+        
+        if(count($Data) === 0) {
+            $this->_result['message'] = Translation::Get('backoffice', 'invalid-credentials');
+            return;
+        }
+
+        if($Data[0]['BLOCKED'] === 1) {
+            $this->_result['message'] = Translation::Get('backoffice', 'account-blocked');
+            return;
+        }
+
+        Auth::Set('login', 'NAME', $Data[0]['NAME']);
+        Auth::Set('login', 'EMAIL', $Data[0]['EMAIL']);
+        Auth::Set('login', 'ROLE', $Data[0]['ROLE']);
     }
 }

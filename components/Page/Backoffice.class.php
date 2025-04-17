@@ -2,6 +2,8 @@
 
 require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/BackofficeRenderer/Renderer.class.php");
 
+require_once(sprintf('%s/../components/pdo/Mysql.class.php', $_SERVER['DOCUMENT_ROOT']));
+
 class BackofficePage {
     private string $_method;
     private array $_resources;
@@ -10,7 +12,9 @@ class BackofficePage {
 
     protected Renderer $Renderer;
 
-    protected string|stdClass|bool $_result;
+    protected MysqlPdo $connection;
+
+    protected string|stdClass|array|bool $_result;
     public function __construct() {
         $this->_method = $_SERVER['REQUEST_METHOD'];
         $this->_result = false;
@@ -18,6 +22,19 @@ class BackofficePage {
         $this->_import_default_styles = true;
         $this->_title = '';
         $this->SetRenderer();
+        $this->SetupConnection();
+    }
+
+    private function SetupConnection():void {
+        $cfg = Parse::CFG()->database;
+        
+        $this->connection = new MysqlPdo(
+            $cfg->host,
+            $cfg->name,
+            $cfg->user,
+            $cfg->password,
+            $cfg->port
+        );
     }
 
     /**
