@@ -2,8 +2,6 @@
 
 require_once("{$_SERVER['DOCUMENT_ROOT']}/setup.php");
 
-// TODO Handle if BACKOFFICE_PREFIX is null
-
 $uri_array = explode('/', substr(REQUESTED_URI, 1)); // Removing the first '/'
 
 $router = null;

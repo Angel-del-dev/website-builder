@@ -16,13 +16,17 @@ require_once("{$root_path}/lib/log/Log.class.php");
 
 define('IS_DEPLOY', $cfg->configuration->deploy === 'On');
 define('IS_INITIAL', $cfg->configuration->initial === 'On');
-/*
-    @constant REQUESTED_URI
-    [Using $_SERVER['REDIRECT_URL'] to get the path without query parameters]
-*/
 
 define('REQUESTED_URI', explode('?', $_SERVER['REQUEST_URI'])[0]);
-// TODO Get the backoffice prefix from the DB
-define('BACKOFFICE_PREFIX', 'panel');
+
+require_once("{$root_path}/components/Configuration/Configuration.class.php");
+
+$_prefix = 'panel';
+if(!IS_INITIAL) {
+    $_prefix_db = Configuration::Get('BACKOFFICE_PREFIX');
+    if($_prefix_db !== '') $_prefix = $_prefix_db;
+}
+
+define('BACKOFFICE_PREFIX', $_prefix);
 
 // End Constant definition

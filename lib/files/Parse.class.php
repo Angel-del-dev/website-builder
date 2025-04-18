@@ -40,4 +40,29 @@ class Parse {
         }
         return $obj;
     }
+    
+    /**
+     * [Set a property to the CFG file]
+     *
+     * @param string $section
+     * @param string $key
+     * @param string $value
+     * 
+     * @return void
+     * 
+     */
+    public static function Set(string $section, string $key, string $value):void {
+        $file = '';
+        $cfg = self::CFG();
+        if(isset($cfg->$section->$key)) $cfg->$section->$key = $value;
+        $sections = array_keys((array)$cfg);
+        foreach($sections as $section) {
+            $file .= sprintf("[%s]\n", $section);
+            foreach($cfg->$section as $key => $value) {
+                $file .= sprintf("%s=%s\n", $key, $value);
+            }
+        }
+        
+        file_put_contents(GetRootPath().'initial.cfg', $file);
+    }
 }

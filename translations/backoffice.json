@@ -8,16 +8,8 @@
         "es": "Traducción no disponible"
     },
     "login-title": {
-        "en": "Default title",
-        "es": "Titulo por defecto"
-    },
-    "backoffice-name": {
-        "en": "Backoffice",
-        "es": "Panel de control"
-    },
-    "backoffice-login": {
-        "en": "Sign-in",
-        "es": "Acceder"
+        "en": "Login - Backoffice",
+        "es": "Iniciar sessión - Backoffice"
     },
     "invalid-credentials": {
         "en": "Invalid credentials",
@@ -27,16 +19,90 @@
         "en": "Account blocked",
         "es": "Cuenta bloqueada"
     },
+
     "initial-process-title": {
         "en": "Setup",
         "es": "Proceso inicial"
     },
     "initial-alert-process":  {
-        "en": "*This process will reset the application's configuration, if the application has been configured previously or you have any doubts, please contact your administrator*",
+        "en": "*This process will reset the application's configuration, if the application has been configured  or you have any doubts, please contact your administrator*",
         "es": "*Este proceso restablecerá la configuración de la aplicación, si su página ha sido configurada anteriormente o tiene alguna duda, porfavor contacte con su administrador*"
     },
     "initial-backoffice-prefix": {
         "en": "Backoffice route prefix",
         "es": "Prefijo de ruta para el panel de administrador"
+    },
+    "initial-ask-confirm": {
+        "en": "Would you like to start the initial process? This process is irreversible",
+        "es": "¿Quiere comenzar el proceso inicial? Este proceso es irreversible"
+    },
+    "initial-update-database": {
+        "en": "Update database",
+        "es": "Actualizar base de datos"
+    },
+    "initial-change-prefix": {
+        "en": "Change backoffice prefix",
+        "es": "Cambiar el prefijo de backoffice"
+    },
+    "initial-create-user": {
+        "en": "Create user",
+        "es": "Crear usuario"
+    },
+    "initial-block-user": {
+        "en": "Block user",
+        "es": "Bloquear usuario"
+    },
+    "initial-sign-out": {
+        "en": "Sign-out",
+        "es": "Cerrar sesión"
+    },
+    "initial-redirect": {
+        "en": "Redirect",
+        "es": "Redirigir"
+    },
+    "initial-unset_initial": {
+        "en": "Unset initial mode",
+        "es": "Desactivar modo inicial"
+    },
+    "initial-status-not-started": {
+        "en": "Ready",
+        "es": "Preparado"
+    },
+    "initial-status-finished": {
+        "en": "Finished",
+        "es": "Finalizado"
+    },
+
+    "backoffice-user": {
+        "en": "User",
+        "es": "Usuario"
+    },
+    "backoffice-password": {
+        "en": "Password",
+        "es": "Contraseña"
+    },
+    "backoffice-confirm-password": {
+        "en": "Confirm password",
+        "es": "Confirmar contraseña"
+    },
+    "backoffice-confirm": {
+        "en": "Confirm",
+        "es": "Confirmar"
+    },
+    "backoffice-cancel": {
+        "en": "Cancel",
+        "es": "Cancelar"
+    },
+    "backoffice-name": {
+        "en": "Backoffice",
+        "es": "Panel de control"
+    },
+    "backoffice-login": {
+        "en": "Sign-in",
+        "es": "Acceder"
+    },
+    "backoffice-redirecting-in": {
+        "en": "Redirecting in",
+        "es": "Redirigiendo en"
     }
 }

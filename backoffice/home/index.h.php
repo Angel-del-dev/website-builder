@@ -17,5 +17,7 @@ class Page extends BackofficePage {
             header(sprintf('Location: /%s/initial', BACKOFFICE_PREFIX));
             return;
         }
+
+        print_r("TODO Home");
     }
 }

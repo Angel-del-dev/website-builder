@@ -1,22 +1,24 @@
 # TODO
 
 * General
-    * [ ] Text based on language
+    * [X] Translations based on language
         * [X] Server side
-        * [ ] Client side
+        * [X] Client side
 * Backoffice
     * [X] Route handler
     * [X] Auth handler
     * [X] Login
         * [X] View
         * [X] Process
-    * [ ] Initial process
+    * [X] Initial process
+        * [X] View
+        * [X] Process
     * [ ] Aside with privileges
     * [ ] pre-alfa designer
         * [ ] Designer
         * [ ] cfg to html
         * [ ] importing components
         * [ ] drag & drop
-    * [ ] allow change the prefix for the backoffice
+    * [ ] Allow change the prefix for the backoffice
 * Front
     * [ ] Page renderer

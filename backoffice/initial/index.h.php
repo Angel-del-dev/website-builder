@@ -34,7 +34,7 @@ class Page extends BackofficePage {
 
             $d = $this->Renderer->StartDiv();
             $d->id = 'initial-container';
-            $d->class = ' h-fit flex justify-center align-center flex-column shadow-small radius-1 overflow-y p-4 gap-2 ';
+            $d->class = ' no-user-select h-fit flex justify-center align-start flex-column shadow-small radius-1 overflow-y p-4 gap-2 ';
             $d->style = ' background-color: var(--white); ';
 
                 $select = $this->Renderer->Select('Language', Auth::Lang());
@@ -51,9 +51,51 @@ class Page extends BackofficePage {
                 $separator = $this->Renderer->Separator();
                 $separator->SetWidth('75%');
                 $this->Renderer->Label(Translation::Get('backoffice', 'initial-backoffice-prefix'), true);
-                $t = $this->Renderer->Text('panel-prefix', sprintf('/%s', BACKOFFICE_PREFIX));
+                $t = $this->Renderer->Text('panel-prefix', sprintf('%s', BACKOFFICE_PREFIX));
                 $t->SetPlaceholder(Translation::Get('backoffice', 'initial-backoffice-prefix'));
+                $t->class .= ' w-50 ';
 
+                $separator = $this->Renderer->Separator();
+                $separator->SetWidth('75%');
+
+                $this->Renderer->Label(Translation::Get('backoffice', 'backoffice-user'), true);
+                $t = $this->Renderer->Text('AdminUser', '');
+                $t->SetPlaceholder(Translation::Get('backoffice', 'backoffice-user'));
+                $t->class .= ' w-50 ';
+
+                $separator = $this->Renderer->Separator();
+                $separator->SetWidth('75%');
+
+                $d = $this->Renderer->StartDiv();
+                $d->class = ' w-100 flex justify-start align-start gap-3 ';
+                    $this->Renderer->Label(Translation::Get('backoffice', 'backoffice-password'), true);
+                    $this->Renderer->Label(Translation::Get('backoffice', 'backoffice-confirm-password'), true);
+                $this->Renderer->EndDiv();
+                $d = $this->Renderer->StartDiv();
+                $d->class = ' w-100 flex justify-start align-start gap-3 ';
+
+                    $t = $this->Renderer->Password('AdminPassword', '');
+                    $t->SetPlaceholder(Translation::Get('backoffice', 'backoffice-password'));
+                    $t->class .= ' w-50 ';
+
+                    $t = $this->Renderer->Password('ConfirmPassword', '');
+                    $t->SetPlaceholder(Translation::Get('backoffice', 'backoffice-confirm-password'));
+                    $t->class .= ' w-50 ';
+
+                $this->Renderer->EndDiv();
+
+                $separator = $this->Renderer->Separator();
+                $separator->SetWidth('75%');
+
+                $btn = $this->Renderer->Button('Confirm', Translation::Get('backoffice', 'backoffice-confirm'));
+                $btn->class = ' btn-success ';
+                $btn->style  = ' margin-left: auto; ';
+
+                $d = $this->Renderer->StartDiv();
+                $d->id = 'progress';
+                $d->class = ' w-100 p-2 d-none flex justify-start align-start flex-column overflow-y ';
+                $d->style = ' background-color: white; height: 150px; ';
+                $this->Renderer->EndDiv();
             $this->Renderer->EndDiv();
 
         $this->Renderer->EndDiv();
