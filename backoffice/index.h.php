@@ -30,7 +30,8 @@ class Page extends BackofficePage {
                 $f->action = '/';
                 $f->class .= ' flex justify-center align-center flex-column gap-2 ';
 
-                    $this->Renderer->H1(Translation::Get('backoffice', 'backoffice-name'));
+                    $h1 = $this->Renderer->H1(Translation::Get('backoffice', 'backoffice-name'));
+                    $h1->class .= ' text-center ';
                     $text = $this->Renderer->Text('User');
                     $text->class .= ' text-center ';
                     $text->SetPlaceholder('Ej: test@gmail.com');
@@ -79,5 +80,12 @@ class Page extends BackofficePage {
         Auth::Set('login', 'NAME', $Data[0]['NAME']);
         Auth::Set('login', 'EMAIL', $Data[0]['EMAIL']);
         Auth::Set('login', 'ROLE', $Data[0]['ROLE']);
+
+        $sql = $this->connection->newQuery("
+            INSERT INTO USERSACCESS (NAME) VALUES (:NAME)
+        ");
+        $sql->params->NAME = $Data[0]['NAME'];
+        $sql->Execute();
+        $sql->close();
     }
 }
