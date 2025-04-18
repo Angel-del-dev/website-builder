@@ -1,11 +1,13 @@
 # Routing examples
 ## Non dynamic routes for backoffice
 | backoffice  
-| --- users  
-| --- privileges  
+| --- access  
+| --- | --- users  
+| --- | --- privileges  
+| --- pages  
+| --- | --- page
 | --- configuration  
-| --- | --- appareance  
-| --- | --- translations
+| --- | --- languages
 
 ## Dynamic routes for frontend
 | home  

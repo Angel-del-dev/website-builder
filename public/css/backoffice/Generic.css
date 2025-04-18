@@ -1,0 +1,11 @@
+#root {
+    position: relative;
+}
+
+@media (max-width: 900px) {
+    #main-menu {
+        position: absolute;
+        left: 0; top: 0;
+        box-shadow: 5px 0 0 5px lightgray;
+    }
+}

@@ -13,8 +13,6 @@ class Page extends BackofficePage {
 
     public function Post(array $params) {
         $this->_result = new stdClass();
-        if(!Auth::IsLogged()) return;
-        if(!IS_INITIAL) return;
         $script = file_get_contents(sprintf('%s/../schema/initial.script.sql', $_SERVER['DOCUMENT_ROOT']));
 
         if(trim($script) === '') return;

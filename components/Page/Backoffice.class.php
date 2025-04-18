@@ -14,6 +14,8 @@ class BackofficePage {
 
     protected MysqlPdo $connection;
 
+    private bool $isLayoutInvoked;
+
     protected string|stdClass|array|bool $_result;
     public function __construct() {
         $this->_method = $_SERVER['REQUEST_METHOD'];
@@ -21,6 +23,7 @@ class BackofficePage {
         $this->_resources = [];
         $this->_import_default_styles = true;
         $this->_title = '';
+        $this->isLayoutInvoked = false;
         $this->SetRenderer();
         $this->SetupConnection();
     }
@@ -110,6 +113,7 @@ class BackofficePage {
             $head .= "
                 <link rel='stylesheet' href='/css/backoffice/Variables.css?v={$v}'>
                 <link rel='stylesheet' href='/css/Generic.css?v={$v}'>
+                <link rel='stylesheet' href='/css/backoffice/Generic.css?v={$v}'>
             ";
         }
 
@@ -167,8 +171,42 @@ class BackofficePage {
         $html = '';
         $html .= $this->CreateHead();
         $html .= $this->Renderer->Render();
+        if($this->isLayoutInvoked) $this->EndGenericLayout();
         $html .= $this->CreateEnd();
         return $html;
+    }
+
+    /**
+     * [Function in charge of creating the backoffice main layout and styles]
+     *
+     * @return void
+     * 
+     */
+    protected function GenericLayout():void {
+        $this->isLayoutInvoked = true;
+
+        $d = $this->Renderer->StartSection(); // Main container
+        $d->class = ' w-100 h-100 flex justify-center align-center ';
+
+            $d = $this->Renderer->StartAside(); // Menu
+            $d->id = 'main-menu';
+            $d->class = ' h-100 ';
+            $d->style = ' width: 200px; background-color: teal; ';
+                require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/BackofficeRenderer/MainMenu.class.php");
+                $menu = new MainMenu($this->connection);
+                $this->Renderer->Raw($menu->Render());
+
+            $this->Renderer->EndAside();
+
+            $d = $this->Renderer->StartArticle(); // Page content
+            $d->class = ' h-100 overflow-y flex-grow-5 ';
+            $d->id = 'main-aside';
+            $d->style = ' background-color: pink; ';
+    }
+
+    private function EndGenericLayout():void {
+            $this->Renderer->EndArticle(); // Page content
+        $this->Renderer->EndSection(); // Main container
     }
 
     /**

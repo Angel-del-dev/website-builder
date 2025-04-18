@@ -18,6 +18,6 @@ class Page extends BackofficePage {
             return;
         }
 
-        print_r("TODO Home");
+        $this->GenericLayout();
     }
 }

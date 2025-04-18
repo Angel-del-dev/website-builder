@@ -19,7 +19,7 @@ class Page extends BackofficePage {
         $this->AddResource('script', '/js/backoffice/Login.page.js', true);
 
         $d = $this->Renderer->StartDiv();
-        $d->class = ' w-100 h-100 flex justify-center align-center ';
+        $d->class = ' w-100 h-100 flex justify-center align-center no-user-select ';
 
             $d = $this->Renderer->StartDiv();
             $d->class = ' radius-1 flex justify-center align-center p-4 ';

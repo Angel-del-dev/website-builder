@@ -27,6 +27,6 @@
     page_scripts = *.page.js
     library = *.inc.js
     # DB
-    initial_schema = *.db
+    initial_schema = *.db.sql
     scripts_executed_by_application = *.script.sql
 ```

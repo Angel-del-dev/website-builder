@@ -124,4 +124,30 @@ class Renderer {
         $obj->IsBold($isBold);
         return $obj;
     }
+
+    public function Raw(string $html):Raw {
+        $obj = $this->RequireClass('Raw', 'Raw');
+        $obj->SetHtml($html);
+        return $obj;
+    }
+
+    public function StartSection():StartSection {
+        return $this->RequireClass('Container', 'StartSection');
+    }
+
+    public function EndSection():EndSection {
+        return $this->RequireClass('Container', 'EndSection');
+    }
+    public function StartAside():StartAside {
+        return $this->RequireClass('Container', 'StartAside');
+    }
+    public function EndAside():EndAside {
+        return $this->RequireClass('Container', 'EndAside');
+    }
+    public function StartArticle():StartArticle {
+        return $this->RequireClass('Container', 'StartArticle');
+    }
+    public function EndArticle():EndArticle {
+        return $this->RequireClass('Container', 'EndArticle');
+    }
 }
