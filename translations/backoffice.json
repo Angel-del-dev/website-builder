@@ -104,5 +104,23 @@
     "backoffice-redirecting-in": {
         "en": "Redirecting in",
         "es": "Redirigiendo en"
+    },
+
+
+    "menu-section-configuration": {
+        "en": "Configuration",
+        "es": "Configuración"
+    },
+    "menu-entries-languages": {
+        "en": "Languages",
+        "es": "Idiomas"
+    },
+    "menu-section-pages": {
+        "en": "Pages",
+        "es": "Páginas"
+    },
+    "menu-entries-pages": {
+        "en": "Pages",
+        "es": "Páginas"
     }
 }

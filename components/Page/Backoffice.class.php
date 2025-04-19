@@ -185,13 +185,15 @@ class BackofficePage {
     protected function GenericLayout():void {
         $this->isLayoutInvoked = true;
 
+        $this->AddResource('script', '/js/backoffice/Generic.inc.js', true);
+
         $d = $this->Renderer->StartSection(); // Main container
         $d->class = ' w-100 h-100 flex justify-center align-center ';
 
             $d = $this->Renderer->StartAside(); // Menu
             $d->id = 'main-menu';
             $d->class = ' h-100 ';
-            $d->style = ' width: 200px; background-color: teal; ';
+            $d->style = ' width: 200px; background-color: var(--black);';
                 require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/BackofficeRenderer/MainMenu.class.php");
                 $menu = new MainMenu($this->connection);
                 $this->Renderer->Raw($menu->Render());
@@ -201,7 +203,7 @@ class BackofficePage {
             $d = $this->Renderer->StartArticle(); // Page content
             $d->class = ' h-100 overflow-y flex-grow-5 ';
             $d->id = 'main-aside';
-            $d->style = ' background-color: pink; ';
+            $d->style = ' background-color: var(--white); ';
     }
 
     private function EndGenericLayout():void {
