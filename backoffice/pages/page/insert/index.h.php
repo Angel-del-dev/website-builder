@@ -28,6 +28,6 @@ class Page extends BackofficePage {
         }
         
         // TODO Check if requested SLUG is a reserved route(It comes from a plugin)        
-        PageModel::Insert(['SLUG' => $params['Slug']]);
+        PageModel::Insert(['SLUG' => strtolower($params['Slug'])]);
     }
 }
