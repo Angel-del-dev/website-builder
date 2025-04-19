@@ -7,6 +7,15 @@ document.querySelectorAll('aside .menu-section').forEach((section, _) => {
         else classList.add('d-none');
     });
 });
+
+document.querySelectorAll('.toggle-main-menu').forEach((el, _) => {
+    el.addEventListener('click', e => {
+        e.preventDefault();
+        const classList = document.getElementById('main-menu').classList;
+        if(classList.contains('d-none')) classList.remove('d-none');
+        else classList.add('d-none');
+    });
+});
 // End menu related process
 
 // Start change language process

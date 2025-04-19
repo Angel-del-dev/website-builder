@@ -193,7 +193,11 @@ class BackofficePage {
             $d = $this->Renderer->StartAside(); // Menu
             $d->id = 'main-menu';
             $d->class = ' h-100 flex flex-column align-center no-user-select ';
-            $d->style = ' width: 200px; background-color: var(--black); border: 1px solid var(--black);';
+            $d->style = ' position: relative; width: 200px; background-color: var(--black); border: 1px solid var(--black);';
+                $i = $this->Renderer->Icon('bars');
+                $i->class .= 'pointer toggle-main-menu ';
+                $i->style = 'position: absolute; top: 10px; right: 10px; color: var(--white);';
+
                 $d = $this->Renderer->StartDiv();
                 $d->class = 'w-100 flex flex-column justify-center align-center gap-2';
                 $d->style = 'height: 20vmin; color: var(--white);';
