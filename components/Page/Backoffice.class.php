@@ -224,7 +224,7 @@ class BackofficePage {
 
                     $select = $this->Renderer->Select('main-language', Auth::Get('config', 'lang'));
                     $select->class = ' fancy-select flex-grow-1 ';
-                    $select->style = 'height: 100%; background-color: transparent; border: 0; color: var(--white)';
+                    $select->style = 'height: 100%; background-color: transparent; border: 0; color: var(--white) -webkit-appearance: none; -moz-appearance: none; appearance: none;';
                     $Languages = Translation::GetAllTranslationsFromLocation('backoffice')['languages-list'];
                     foreach($Languages as $k => $value) {
                         $select->Add($k, $value);
