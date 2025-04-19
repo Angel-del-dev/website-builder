@@ -193,11 +193,7 @@ class BackofficePage {
             $d = $this->Renderer->StartAside(); // Menu
             $d->id = 'main-menu';
             $d->class = ' h-100 flex flex-column align-center no-user-select ';
-            $d->style = ' position: relative; width: 200px; background-color: var(--black); border: 1px solid var(--black);';
-                $i = $this->Renderer->Icon('bars');
-                $i->class .= 'pointer toggle-main-menu ';
-                $i->style = 'position: absolute; top: 10px; right: 10px; color: var(--white);';
-
+            $d->style = ' width: 200px; background-color: var(--black); border: 1px solid var(--black);';
                 $d = $this->Renderer->StartDiv();
                 $d->class = 'w-100 flex flex-column justify-center align-center gap-2';
                 $d->style = 'height: 20vmin; color: var(--white);';
@@ -235,7 +231,7 @@ class BackofficePage {
             $this->Renderer->EndAside();
 
             $d = $this->Renderer->StartArticle(); // Page content
-            $d->class = ' h-100 overflow-y flex-grow-5 ';
+            $d->class = ' h-100 flex-grow-5 flex justify-start align-start flex-column ';
             $d->id = 'main-article';
             $d->style = ' background-color: var(--white); ';
     }
@@ -254,5 +250,15 @@ class BackofficePage {
     public function Request():false|string {
         if($this->_result === null) return false;
         return $this->_method === 'POST' ? json_encode($this->_result) : $this->GetPage();
+    }
+
+    protected function StartGenericNav():void {
+        $nav = $this->Renderer->StartNav();
+        $nav->class = 'w-100 p-5 no-user-select flex justify-between align-center';
+        $nav->style = 'background-color: var(--black);';
+    }
+
+    protected function EndGenericNav():void {
+        $this->Renderer->EndNav();
     }
 }

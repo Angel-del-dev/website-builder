@@ -169,4 +169,12 @@ class Renderer {
         return $obj;
     }
 
+    public function StartNav(string $id = ''):StartNav {
+        $obj = $this->RequireClass('Navbar', 'StartNav');
+        $obj->id = $id;
+        return $obj;
+    }
+    public function EndNav():EndNav {
+        return $this->RequireClass('Navbar', 'EndNav');
+    }
 }

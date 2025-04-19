@@ -73,6 +73,10 @@
         "es": "Finalizado"
     },
 
+    "backoffice-home": {
+        "en": "Home",
+        "es": "Inicio"
+    },
     "backoffice-user": {
         "en": "User",
         "es": "Usuario"

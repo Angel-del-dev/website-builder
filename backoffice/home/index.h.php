@@ -19,5 +19,25 @@ class Page extends BackofficePage {
         }
 
         $this->GenericLayout();
+
+        $this->StartGenericNav();
+
+            $d = $this->Renderer->StartDiv();
+            $d->class = ' flex justify-start align-center gap-2 ';
+                $btn = $this->Renderer->Button('', "<i class='fa-solid fa-bars fa-1x'></i>");
+                $btn->class = ' pointer toggle-main-menu ';
+                $btn->style = 'background-color: transparent; color: var(--white); border: 0; outline: none;';
+
+                $h1 = $this->Renderer->H1(Translation::Get('backoffice', 'backoffice-home'));
+                $h1->class = 'p-0 m-0';
+                $h1->style = 'color: var(--white); font-size: 1.2rem;';
+            $this->Renderer->EndDiv();
+
+            $this->Renderer->StartDiv();
+            $this->Renderer->EndDiv();
+
+        $this->EndGenericNav();
+        $h1 = $this->Renderer->H1('Home');
+        $h1->class = ' w-100 flex-grow-1 flex justify-center align-center m-0 p-0 ';
     }
 }

@@ -48,11 +48,11 @@ class MainMenu {
                 if($isSameSection) {
                     $html .= sprintf("
                         <li title='{$Name}' class='{$li_class}' style='{$li_style}'>
-                            <a href='{$Entry['SLUG']}'>
+                            <a class='w-100 h-100 flex flex-grow-1' href='/%/{$Entry['SLUG']}'>
                                 %s
                             </a>
                         </li>
-                    ", $Name);
+                    ", $Name, BACKOFFICE_PREFIX);
                     continue;
                 }
 
@@ -77,12 +77,12 @@ class MainMenu {
                         </li>
                         <ul class='d-none m-0 p-0' style='list-style: none; border-top: 1px solid var(--black);'>
                             <li title='{$Name}' class='{$li_class}' style='{$li_style}'>
-                                <a href='{$Entry['SLUG']}'>
+                                <a class='w-100 h-100 flex flex-grow-1' href='/%s{$Entry['SLUG']}'>
                                     %s
                                 </a>
                             </li>
 
-                ", $Section, $Name);
+                ", $Section, BACKOFFICE_PREFIX, $Name);
             }
         }
 
