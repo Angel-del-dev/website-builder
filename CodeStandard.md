@@ -9,6 +9,8 @@
     bool IS_INITIAL
     string REQUESTED_URI
     string|null BACKOFFICE_PREFIX
+    string _AND
+    string _OR
 ```
 
 ### JS

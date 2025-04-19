@@ -113,6 +113,14 @@
         "en": "Would you like to remove de selected element?<br />This process is <b>irreversible</b>",
         "es": "¿Desea eliminar el elemento seleccionado?<br />Este proceso es <b>irreversible</b>"
     },
+    "backoffice-page": {
+        "en": "Page",
+        "es": "Página"
+    },
+    "backoffice-exists": {
+        "en": "Could not create the requested element, it already exists",
+        "es": "No se ha podido crear correctamente, el elemento ya existe"
+    },
 
     "menu-section-configuration": {
         "en": "Configuration",

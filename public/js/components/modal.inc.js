@@ -38,7 +38,7 @@ export const _create_generic_footer = (confirm_icon, confirm_text, onExit) => {
     `;
 
     const accept_button = document.createElement('button');
-    accept_button.classList.add('btn-primary');
+    accept_button.classList.add('btn-primary', 'flex', 'justify-center', 'align-center', 'gap-1');
 
     const accept_icon = document.createElement('i');
     accept_icon.classList.add(...confirm_icon.split(' '));

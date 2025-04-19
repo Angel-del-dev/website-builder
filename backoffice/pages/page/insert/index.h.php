@@ -20,6 +20,14 @@ class Page extends BackofficePage {
             http_response_code(404);
             return;
         }
-        PageModel::Delete(['SLUG' => $params['Slug']]);
+       
+        if(PageModel::Exists([['SLUG', '=', strtolower($params['Slug'])]])) {
+            $this->_result->message = Translation::Get('backoffice', 'backoffice-exists');
+            return;
+           
+        }
+        
+        // TODO Check if requested SLUG is a reserved route(It comes from a plugin)        
+        PageModel::Insert(['SLUG' => $params['Slug']]);
     }
 }

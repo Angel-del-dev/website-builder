@@ -37,14 +37,14 @@ class Page extends BackofficePage {
             $d = $this->Renderer->StartDiv();
             $d->class = ' flex justify-end align-center gap-2 ';
                 $btn = $this->Renderer->Button('', "<i class='fa-solid fa-plus fa-1x'></i>");
-                $btn->class = ' pointer toggle-main-menu ';
+                $btn->class = ' pointer add-page ';
                 $btn->style = 'background-color: transparent; color: var(--white); border: 0; outline: none;';
             $this->Renderer->EndDiv();
 
         $this->EndGenericNav();
 
         $sql = $this->connection->newQuery("
-            SELECT PAGE, SLUG
+            SELECT SLUG
             FROM PAGES
             ORDER BY SLUG ASC
         ");
@@ -58,7 +58,7 @@ class Page extends BackofficePage {
 
             foreach($Slugs as $slug) {
                 $d = $this->Renderer->StartDiv();
-                $d->AddAttribute('page', $slug['PAGE']);
+                $d->AddAttribute('page', $slug['SLUG']);
                 $d->class = ' flex w-100 p-2 radius-1 ';
                 $d->style = ' background-color: var(--light); box-shadow: 2px 2px 2px 2px var(--lightgray); flex justify-between align-center';
                     $d = $this->Renderer->StartDiv();
@@ -70,7 +70,7 @@ class Page extends BackofficePage {
 
                     $d = $this->Renderer->StartDiv();
                     $d->class = "{$element_class} justify-end gap-2";
-                        $link = $this->Renderer->Link('', sprintf('/%s/pages/page?p=%s', BACKOFFICE_PREFIX, $slug['PAGE']));
+                        $link = $this->Renderer->Link('', sprintf('/%s/pages/page?p=%s', BACKOFFICE_PREFIX, $slug['SLUG']));
                         $link->SetIcon('eye', '1x');
                         $link->style = 'color: var(--black); text-decoration: none;';
 
