@@ -109,7 +109,10 @@
         "en": "Redirecting in",
         "es": "Redirigiendo en"
     },
-
+    "backoffice-confirm-remove": {
+        "en": "Would you like to remove de selected element?<br />This process is <b>irreversible</b>",
+        "es": "¿Desea eliminar el elemento seleccionado?<br />Este proceso es <b>irreversible</b>"
+    },
 
     "menu-section-configuration": {
         "en": "Configuration",

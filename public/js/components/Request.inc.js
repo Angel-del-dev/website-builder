@@ -16,5 +16,6 @@ export const Request = async ({
     }
     return await fetch(url, params)
         .then(r =>  r.ok || r.status === 400 ? r.json() : { message: r.statusText })
-        .then(r => r);
+        .then(r => r)
+        .catch(err => {return { message: err }});
 };

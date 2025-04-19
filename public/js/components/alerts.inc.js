@@ -65,6 +65,10 @@ export const Confirm = (
     cancel_icon_node.classList.add(...cancel_icon.split(' '));
     btn_cancel.append(cancel_icon_node, document.createTextNode(cancel_text));
     btn_cancel.addEventListener('click', e => _close_modal(e, onCancel));
+
+    [btn_confirm, btn_cancel].forEach((btn, _) => {
+        btn.classList.add('flex', 'justify-center', 'align-center', 'gap-1');
+    });
     // Invoke
     footer_node.append(btn_cancel, btn_confirm);
 

@@ -19,6 +19,7 @@ class Page extends BackofficePage {
         }
 
         $this->GenericLayout();
+        $this->AddResource('script', '/js/backoffice/Pages.page.js', true);
 
         $this->StartGenericNav();
 
@@ -51,7 +52,7 @@ class Page extends BackofficePage {
         $sql->close();
 
         $d = $this->Renderer->StartDiv();
-        $d->class = 'w-100 h-100 overflow-y flex justify-start align-start flex-column gap-2 p-2';
+        $d->class = 'w-100 h-100 overflow-y flex justify-start align-start flex-column gap-2 p-2 no-user-select';
         
             $element_class = 'flex align-center flex-grow-1';
 
