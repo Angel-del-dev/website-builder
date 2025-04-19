@@ -93,6 +93,7 @@ class BackofficePage {
     private function CreateHead():string {
         $head = '';
         $panel_prefix = BACKOFFICE_PREFIX;
+        $v = date('His');
         $head .= sprintf("
             <!DOCTYPE html>
                 <html lang='%s'>
@@ -103,11 +104,10 @@ class BackofficePage {
                     <script>
                         const BACKOFFICE_PREFIX = `{$panel_prefix}`;
                     </script>
-                    <script src='/js/components/global.inc.js'></script>
+                    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css' integrity='sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==' crossorigin='anonymous' referrerpolicy='no-referrer' />
+                    <script src='/js/components/global.inc.js?v={$v}'></script>
             
         ", Auth::Get('config', 'lang'));
-
-        $v = date('His');
 
         if($this->_import_default_styles) {
             $head .= "
@@ -192,17 +192,47 @@ class BackofficePage {
 
             $d = $this->Renderer->StartAside(); // Menu
             $d->id = 'main-menu';
-            $d->class = ' h-100 ';
-            $d->style = ' width: 200px; background-color: var(--black);';
+            $d->class = ' h-100 flex flex-column align-center no-user-select ';
+            $d->style = ' width: 200px; background-color: var(--black); border: 1px solid var(--black);';
+                $d = $this->Renderer->StartDiv();
+                $d->class = 'w-100 flex flex-column justify-center align-center gap-2';
+                $d->style = 'height: 20vmin; color: var(--white);';
+                    $this->Renderer->Icon("circle-user", '3x');
+                    $this->Renderer->H1(Auth::Get('login', 'NAME'));
+                $this->Renderer->EndDiv();
+
+                $this->Renderer->Separator('1px', 'var(--white)', '75%');
+
                 require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/BackofficeRenderer/MainMenu.class.php");
                 $menu = new MainMenu($this->connection);
                 $this->Renderer->Raw($menu->Render());
+                
+                $this->Renderer->Separator('1px', 'var(--white)', '75%');
+
+                $d = $this->Renderer->StartDiv();
+                $d->class = 'w-100 flex justify-center align-center';
+                $d->style = 'height: 75px; color: var(--white);';
+
+                    $link = $this->Renderer->Link('', sprintf('/%s/sign-out', BACKOFFICE_PREFIX));
+                    $link->class = 'text-decoration-none flex-grow-1 flex justify-center align-center';
+                    $link->style = 'color: var(--white);';
+                    $link->SetIcon('right-from-bracket', '2x');
+
+                    $select = $this->Renderer->Select('main-language', Auth::Get('config', 'lang'));
+                    $select->class = ' fancy-select flex-grow-1 ';
+                    $select->style = 'height: 100%; background-color: transparent; border: 0; color: var(--white)';
+                    $Languages = Translation::GetAllTranslationsFromLocation('backoffice')['languages-list'];
+                    foreach($Languages as $k => $value) {
+                        $select->Add($k, $value);
+                    }
+
+                $this->Renderer->EndDiv();
 
             $this->Renderer->EndAside();
 
             $d = $this->Renderer->StartArticle(); // Page content
             $d->class = ' h-100 overflow-y flex-grow-5 ';
-            $d->id = 'main-aside';
+            $d->id = 'main-article';
             $d->style = ' background-color: var(--white); ';
     }
 

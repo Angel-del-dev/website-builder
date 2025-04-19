@@ -27,7 +27,7 @@ class MainMenu {
 
         $html .= "
             <div 
-                class='w-100 h-100 flex flex-column align-center justify-start gap-1 overflow-y no-user-select'
+                class='w-100 flex flex-column align-center justify-start gap-1 flex-grow-1 overflow-y no-user-select'
             >
         ";
 

@@ -150,4 +150,23 @@ class Renderer {
     public function EndArticle():EndArticle {
         return $this->RequireClass('Container', 'EndArticle');
     }
+
+    public function I(string $caption):I {
+        $obj = $this->RequireClass('Italic', 'I');
+        $obj->SetCaption($caption);
+        return $obj;
+    }
+
+    public function Icon(string $icon, string $size = '1x', string $type = 'solid'):Icon {
+        $obj = $this->RequireClass('Italic', 'Icon');
+        $obj->SetIcon($icon, $size, $type);
+        return $obj;
+    }
+
+    public function Link(string $caption = '', string $href = '#'):A {
+        $obj = $this->RequireClass('Link', 'A');
+        $obj->SetLink($caption, $href);
+        return $obj;
+    }
+
 }

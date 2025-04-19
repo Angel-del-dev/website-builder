@@ -9,6 +9,10 @@ aside ul a:active {
     text-decoration: none;
 }
 
+#main-language > option {
+    color: var(--black);
+}
+
 @media (max-width: 900px) {
     #main-menu {
         position: absolute;

@@ -11,6 +11,9 @@ body {
 
 *, *::before, *::after {
     box-sizing: border-box;
+}
+
+*:not(i), *::before:not(i), *::after:not(i) {
     font-family: montserrat;
 }
 
@@ -93,6 +96,8 @@ body {
 .text-center { text-align: center; }
 .text-right { text-align: right; }
 .text-justify { text-align: justify; }
+
+.text-decoration-none { text-decoration: none; }
 /* End text */
 
 /* Start other */

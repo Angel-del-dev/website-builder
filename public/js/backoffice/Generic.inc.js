@@ -8,3 +8,17 @@ document.querySelectorAll('aside .menu-section').forEach((section, _) => {
     });
 });
 // End menu related process
+
+// Start change language process
+document.getElementById('main-language')?.addEventListener('change', async (el, _) => {
+    const { Request } = await require("../components/Request.inc.js");
+
+    await Request({
+        url: `/${BACKOFFICE_PREFIX}/change-lang`,
+        method: 'POST',
+        data: { Lang: el.target.value }
+    });
+
+    location.reload();
+});
+// End change language process
