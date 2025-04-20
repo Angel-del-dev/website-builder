@@ -57,4 +57,51 @@ class EditorConfigModel extends Model {
 
         return $data;
     }
+
+    public static function InsertUserPanel(string $Panel, int $Side):void {
+        self::Connection();
+
+        // Check if the user has an edit config created and create it if not
+        $sql = self::$connection->newQuery("
+            SELECT 1
+            FROM USEREDITORCONFIG
+            WHERE USER = :USER
+        ");
+        $sql->params->USER = Auth::Get('login', 'NAME');
+        $Data = $sql->Execute();
+        $sql->close();
+        if(count($Data) === 0) {
+            $sql = self::$connection->newQuery("
+                INSERT INTO USEREDITORCONFIG(USER) VALUES(:USER)
+            ");
+            $sql->params->USER = Auth::Get('login', 'NAME');
+            $sql->Execute();
+            $sql->close();
+        }
+        // Get order for the new panel
+        $sql = self::$connection->newQuery("
+            SELECT COALESCE(MAX(PANELORDER), 0) +1 AS NEWORDER
+            FROM USEREDITORPANELS
+            WHERE USER = :USER AND
+                SIDE = :SIDE
+        ");
+        $sql->params->USER = Auth::Get('login', 'NAME');
+        $sql->params->SIDE = $Side;        
+        $Data = $sql->Execute();
+        $sql->close();
+
+        // Add panel
+        $sql = self::$connection->newQuery("
+            INSERT INTO USEREDITORPANELS
+                (USER, PANEL, SIDE, PANELORDER)
+            VALUES
+                (:USER, :PANEL, :SIDE, :PANELORDER)
+        ");
+        $sql->params->USER = Auth::Get('login', 'NAME');
+        $sql->params->PANEL = $Panel;
+        $sql->params->SIDE = $Side;   
+        $sql->params->PANELORDER = $Data[0]['NEWORDER'];            
+        $sql->Execute();
+        $sql->close();
+    }
 }

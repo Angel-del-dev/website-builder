@@ -19,6 +19,15 @@ const removepanel = async e => {
     Panel_node.remove();
 };
 
+const _add_component = async (Panel, Side) => {
+    await Request({
+        url: `/${BACKOFFICE_PREFIX}/editor/add-panel`,
+        method: 'POST',
+        data: { Panel, Side }
+    });
+    location.reload();
+};
+
 const show_modal_panels = async () => {
     const { Panels } = await Request({
         url: `/${BACKOFFICE_PREFIX}/editor/get-user`,
@@ -54,11 +63,19 @@ const show_modal_panels = async () => {
         const btn_container = document.createElement('div');
         btn_container.classList.add('flex', 'justify-center', 'align-center', 'gap-2');
         const btn_left = document.createElement('button');
-        btn_left.classList.add('pointer');
+        btn_left.classList.add('pointer', 'btn-primary');
+        btn_left.addEventListener('click', e => {
+            e.preventDefault();
+            _add_component(panel['PANEL'], 0);
+        });
         btn_left.append(document.createTextNode(getTranslation('editor-add-panel-left')));
 
         const btn_right = document.createElement('button');
-        btn_right.classList.add('pointer');
+        btn_right.classList.add('pointer', 'btn-primary');
+        btn_right.addEventListener('click', e => {
+            e.preventDefault();
+            _add_component(panel['PANEL'], 1);
+        });
         btn_right.append(document.createTextNode(getTranslation('editor-add-panel-right')));
 
         btn_container.append(btn_left, btn_right);
