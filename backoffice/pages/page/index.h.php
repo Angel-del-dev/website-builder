@@ -28,7 +28,7 @@ class Page extends BackofficePage {
                 $btn->class = ' pointer toggle-main-menu ';
                 $btn->style = 'background-color: transparent; color: var(--white); border: 0; outline: none;';
 
-                $h1 = $this->Renderer->H1(Translation::Get('backoffice', 'backoffice-home'));
+                $h1 = $this->Renderer->H1(Translation::Get('backoffice', 'backoffice-page-editor'));
                 $h1->class = 'p-0 m-0';
                 $h1->style = 'color: var(--white); font-size: 1.2rem;';
             $this->Renderer->EndDiv();

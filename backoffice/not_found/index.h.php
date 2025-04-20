@@ -9,6 +9,8 @@ class Page extends BackofficePage {
 
     public function Get() {
         $this->_result = '404 Not found';
+        print_r('test');
+        exit;
     }
 
     public function Post() {

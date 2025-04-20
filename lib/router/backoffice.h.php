@@ -70,7 +70,7 @@ class BackofficeRouter extends Router{
         }
 
         $method = ucfirst($_SERVER['REQUEST_METHOD']);
-        if(in_array(strtoupper($method), ['GET'])) $class->$method();
+        if(in_array(strtoupper($method), ['GET'])) $class->$method($_GET);
         else $class->$method($_POST);
         
         $result = $class->Request();

@@ -117,6 +117,10 @@
         "en": "Page",
         "es": "Página"
     },
+    "backoffice-page-editor": {
+        "en": "Page editor",
+        "es": "Editor de páginas"
+    },
     "backoffice-exists": {
         "en": "Could not create the requested element, it already exists",
         "es": "No se ha podido crear correctamente, el elemento ya existe"
