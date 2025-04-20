@@ -39,14 +39,14 @@ class Editor {
     }
 
     // Start panel drawing
-    private function _DrawGenericPanel(string $name):string {
+    private function _DrawGenericPanel(string $name, float $maxHeight = 100):string {
         $panel = sprintf("
             <section 
                 class='radius-1 w-100 flex-grow-1 flex justify-center align-center flex-column' 
-                style='background-color: {$this->panel_bg};'
+                style='background-color: {$this->panel_bg}; flex: 1; max-height: %s;'
                 data-panel='%s'
             >
-        ", $name);
+        ","{$maxHeight}%", $name);
 
         $panel .= sprintf("
             <span
@@ -57,10 +57,8 @@ class Editor {
                 <i class='removepanel pointer fa-solid fa-xmark fa-1x'></i>
             </span>
             <div
-                class='p-1 flex-grow-1'
+                class='p-1 flex-grow-1 w-100 h-100 overflow-y'
             >
-            
-            </div>
         ", Translation::Get('backoffice', $name));
 
         return $panel;
@@ -68,23 +66,35 @@ class Editor {
 
     private function _DrawEndGenericPanel():string {
         return "
+                </div>
             </section>
         ";
     }
-    private function DrawOptions(string &$html, string $name):void {
-        $html .= $this->_DrawGenericPanel($name);
+    private function DrawOptions(string &$html, string $name, float $maxHeight = 100):void {
+        $html .= $this->_DrawGenericPanel($name, $maxHeight);
         $html .= $this->_DrawEndGenericPanel();
     }
-    private function DrawReference(string &$html, string $name):void {
-        $html .= $this->_DrawGenericPanel($name);
+    private function DrawReference(string &$html, string $name, float $maxHeight = 100):void {
+        $html .= $this->_DrawGenericPanel($name, $maxHeight);
         $html .= $this->_DrawEndGenericPanel();
     }
-    private function DrawTreeStructure(string &$html, string $name):void {
-        $html .= $this->_DrawGenericPanel($name);
+    private function DrawTreeStructure(string &$html, string $name, float $maxHeight = 100):void {
+        $html .= $this->_DrawGenericPanel($name, $maxHeight);
         $html .= $this->_DrawEndGenericPanel();
     }
-    private function DrawComponentList(string &$html, string $name):void {
-        $html .= $this->_DrawGenericPanel($name);
+    private function DrawComponentList(string &$html, string $name, float $maxHeight = 100):void {
+        $html .= $this->_DrawGenericPanel($name, $maxHeight);
+        $components = scandir(sprintf('%s/../components/Editor.plugin/components', $_SERVER['DOCUMENT_ROOT']));
+        $components = array_merge($components, $components);
+        $components = array_merge($components, $components);
+        $html .= '<ul class="p-0 m-0" style="list-style: none;">';
+        foreach($components as $component) {
+            if(in_array($component, ['.', '..'])) continue;
+            $html .= "
+                <li class='p-1 component-list-item' style='color: var(--white);'>{$component}</li>
+            ";
+        }
+        $html .= '</ul>';
         $html .= $this->_DrawEndGenericPanel();
     }
     // End panel drawing
@@ -110,17 +120,23 @@ class Editor {
         }
     }
 
+    private function _GetPercentageFilled(array $section):float {
+        $count = count($section);
+        if($count === 0) return 100;
+        return 100 / $count;
+    }
+
     private function CreateLeftAside(string &$html):void {
         $html .= "
             <aside 
-                class='overflow-y h-100 radius-1 flex justify-center align-center flex-column gap-2 p-2' 
+                class='no-user-select overflow-y h-100 radius-1 flex justify-center align-center flex-column gap-2 p-2' 
                 style='width: 200px; background-color: {$this->bg_aside};'
             >
         ";
-
+        $maxHeight = $this->_GetPercentageFilled($this->left_panel);
         foreach($this->left_panel as $panel) {
             $callback = $panel['Callback'];
-            $this->$callback($html, $panel['Panel']);
+            $this->$callback($html, $panel['Panel'], $maxHeight);
         }
 
         $html .= "</aside>";
@@ -129,14 +145,15 @@ class Editor {
     private function CreateRightAside(string &$html):void {
         $html .= "
             <aside 
-                class='overflow-y h-100 radius-1 flex justify-center align-center flex-column gap-2 p-2' 
+                class='no-user-select overflow-y h-100 radius-1 flex justify-center align-center flex-column gap-2 p-2' 
                 style='width: 200px; background-color: {$this->bg_aside};'
             >
         ";
-
+        $maxHeight = $this->_GetPercentageFilled($this->right_panel);
+        
         foreach($this->right_panel as $panel) {
             $callback = $panel['Callback'];
-            $this->$callback($html, $panel['Panel']);
+            $this->$callback($html, $panel['Panel'], $maxHeight);
         }
 
         $html .= "</aside>";
@@ -160,7 +177,7 @@ class Editor {
         }
         $html = '';
         $this->GetPanelsConfiguration();
-        $html .= "<section class='p-2 w-100 h-100 flex justify-between align-start flex-grow-1 gap-2'>"; // Main container
+        $html .= "<section class='p-2 w-100 flex justify-between align-start flex-grow-1 gap-2' style='height: 90svh;'>"; // Main container
             if($this->isDesign) $this->CreateLeftAside($html);
             $this->CreateCanvas($html);
             if($this->isDesign) $this->CreateRightAside($html);

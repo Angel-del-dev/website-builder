@@ -1,0 +1,4 @@
+li.component-list-item:hover {
+    cursor: grab;
+    background-color: #6c767f;
+}
