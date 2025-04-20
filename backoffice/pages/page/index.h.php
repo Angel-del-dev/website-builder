@@ -8,7 +8,37 @@ class Page extends BackofficePage {
         parent::__construct();
     }
 
-    public function Get() {
+    private function CreateNavbar() {
+        $this->StartGenericNav();
+
+        $d = $this->Renderer->StartDiv();
+        $d->class = ' w-100 flex justify-between align-center ';
+            $d = $this->Renderer->StartDiv();
+            $d->class = 'flex justify-start align-center gap-2';
+                $btn = $this->Renderer->Button('', "<i class='fa-solid fa-bars fa-1x'></i>");
+                $btn->class = ' pointer toggle-main-menu ';
+                $btn->style = 'background-color: transparent; color: var(--white); border: 0; outline: none;';
+
+                $h1 = $this->Renderer->H1(Translation::Get('backoffice', 'backoffice-page-editor'));
+                $h1->class = 'p-0 m-0';
+                $h1->style = 'color: var(--white); font-size: 1.2rem;';
+            $this->Renderer->EndDiv();
+
+            $d = $this->Renderer->StartDiv();
+            $d->class = 'flex justify-start align-center gap-2';
+                $btn = $this->Renderer->Button('add-panel', "<i class='fa-solid fa-plus fa-1x'></i>");
+                $btn->class = ' pointer ';
+                $btn->style = 'background-color: transparent; color: var(--white); border: 0; outline: none;';
+            $this->Renderer->EndDiv();
+        $this->Renderer->EndDiv();
+
+        $this->Renderer->StartDiv();
+        $this->Renderer->EndDiv();
+
+        $this->EndGenericNav();
+    }
+
+    public function Get($params) {
         if(!Auth::IsLogged()) {
             header(sprintf('Location: /%s', BACKOFFICE_PREFIX));
             return;
@@ -19,25 +49,14 @@ class Page extends BackofficePage {
         }
 
         $this->GenericLayout();
+        $this->CreateNavbar();
 
-        $this->StartGenericNav();
+        require_once(sprintf('%s/../components/Editor.plugin/Editor.class.php', $_SERVER['DOCUMENT_ROOT']));
 
-            $d = $this->Renderer->StartDiv();
-            $d->class = ' flex justify-start align-center gap-2 ';
-                $btn = $this->Renderer->Button('', "<i class='fa-solid fa-bars fa-1x'></i>");
-                $btn->class = ' pointer toggle-main-menu ';
-                $btn->style = 'background-color: transparent; color: var(--white); border: 0; outline: none;';
+        $this->AddResource('script', '/js/plugins/editor/editor.inc.js', true);
 
-                $h1 = $this->Renderer->H1(Translation::Get('backoffice', 'backoffice-page-editor'));
-                $h1->class = 'p-0 m-0';
-                $h1->style = 'color: var(--white); font-size: 1.2rem;';
-            $this->Renderer->EndDiv();
-
-            $this->Renderer->StartDiv();
-            $this->Renderer->EndDiv();
-
-        $this->EndGenericNav();
-        $h1 = $this->Renderer->H1("TODO PAGE '{$_GET['p']}'");
-        $h1->class = ' w-100 flex-grow-1 flex justify-center align-center m-0 p-0 ';
+        $Editor = EditorCreator::Init($params);
+        $Editor->Design();
+        $this->Renderer->Raw($Editor->Render());
     }
 }

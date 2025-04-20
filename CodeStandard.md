@@ -25,10 +25,12 @@
     regular_functions = *.inc.php
     class = *.class.php
     class_with_inheritance = *.h.php
+    plugin_files = *.plugin.php # Plugin files must not be included in release builds as it needs to be downloaded if the user decides to include the plugin to the project
     # JS
     page_scripts = *.page.js
     library = *.inc.js
     # DB
     initial_schema = *.db.sql
     scripts_executed_by_application = *.script.sql
+    plugin_scripts = *.plugin.sql # Plugin files must not be included in release builds as it needs to be downloaded & execuded if the user decides to include the plugin to the project
 ```

@@ -71,6 +71,7 @@ export const modal = (
     `;
 
     const modal_body = document.createElement('div');
+    modal_body.classList.add('flex', 'justify-center', 'align-center', 'flex-column');
     modal_body.style = `
         background-color: white;
         box-shadow: 2px 2px 2px 2px lightgray; border-radius: 5px;
@@ -79,7 +80,8 @@ export const modal = (
     
     const modal_bodycontainer = document.createElement('div');
     modal_bodycontainer.style = `
-        width: 100%; min-height: 100%; height: fit-content;
+        width: 100%; flex-grow: 1;
+        overflow-y: auto;
         padding: 10px;
     `;
 
