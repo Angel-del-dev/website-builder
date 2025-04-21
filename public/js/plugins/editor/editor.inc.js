@@ -90,6 +90,15 @@ const toggle_child_element = e => {
     const element = e.target.closest('.component-tree-item');
     if(element === null) return;
 
+    const panel = e.target.closest('[data-panel]');
+    panel.querySelectorAll('.active')?.forEach((panel_node, _) => panel_node.classList.remove('active'));
+    const selected_item = e.target.closest('li').querySelector('span');
+    selected_item.classList.add('active');
+
+    document.querySelectorAll('.builder-canvas .active')?.forEach((builder_node, _) => builder_node.classList.remove('active'));
+
+    document.getElementById(`${selected_item.id.replaceAll('tree-', '')}`)?.classList.add('active');
+
     const ul = element.querySelector('ul');
     if(ul === null) return;
     const classList = ul.classList;
@@ -98,9 +107,33 @@ const toggle_child_element = e => {
     else classList.add('d-none');
 };
 
+const handle_context_menu = e => {
+    e.preventDefault();
+    alert('Handle context menu');
+};
+
+const select_current_component = e => {
+    const component_node = e.target.closest('[component]');
+    if(component_node === null) return;
+
+    const component = component_node.getAttribute('component');
+    const id = component_node.id;
+
+    document.querySelectorAll('.builder-canvas [component].active')?.forEach((cmp, _) => cmp.classList.remove('active'));
+    component_node.classList.add('active');
+    // Select the element on the tree structure panel if exists
+
+    const tree = document.querySelector('section[data-panel="editor-panel-component-tree-structure"]')
+    if(tree === null) return;
+    tree.querySelectorAll('.active')?.forEach((tree_node, _) => tree_node.classList.remove('active'));
+    tree.querySelector(`#tree-${id}`)?.classList.add('active');
+};
+
 document.querySelectorAll('.removepanel')?.forEach((item, _) => {
     item.addEventListener('click', removepanel);
 });
 
+document.getElementById('main-editor')?.addEventListener('contextmenu', handle_context_menu);
 document.getElementById('add-panel')?.addEventListener('click', show_modal_panels);
 document.querySelector('section[data-panel="editor-panel-component-tree-structure"]')?.addEventListener('click', toggle_child_element);
+document.querySelector('.builder-canvas')?.addEventListener('click', select_current_component);

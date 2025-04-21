@@ -91,7 +91,7 @@ class Editor {
             $html .= "<li class='component-tree-item flex justify-start align-start flex-column gap-1' style='white-space:nowrap; width: fit-content;'>";
             $type = Translation::Get('backoffice', "editor-plugin-{$child['type']}");
                 $html .= "
-                    <span title='{$child['name']} : {$type}' class='p-1' style='min-width: 100%; width: fit-content !important;'>
+                    <span id='tree-{$child['name']}' title='{$child['name']} : {$type}' class='p-1' style='min-width: 100%; width: fit-content !important;'>
                         {$child['name']} : {$type}
                     </span>
                 ";
@@ -195,9 +195,10 @@ class Editor {
     }
 
     private function CreateCanvas(string &$html):void {
+        $class = $this->isDesign ? ' builder-canvas ' : '';
         $html .= "
             <article 
-                class='overflow-y radius-1 h-100 flex-grow-1' 
+                class='overflow-y radius-1 h-100 flex-grow-1 {$class}' 
                 style='background-color: #add8e6;'
             >
         ";
@@ -220,12 +221,20 @@ class Editor {
         $base_route = "{$_SERVER['DOCUMENT_ROOT']}/../components/Editor.plugin/components";
         foreach($Elements as $element) {
             if(!is_dir("{$base_route}/{$element->type}")) continue;
-            // TODO: Handle the html
+            if(!is_file("{$base_route}/{$element->type}/component.class.php")) continue;
+            require_once("{$base_route}/{$element->type}/component.class.php");
+            
+            $component = new $element->type($element, $this->isDesign);
+
+            $html .= $component->StartRender();
+
             $tree_element = [ 'name' => $element->name, 'type' => $element->type, 'children' => [] ];
 
             if(isset($element->children) && $element->children !== []) {
                 $tree_element['children'] = $this->ParsePage($element->children, $html, []);
             }
+
+            $html .= $component->EndRender();
 
             $tree_slice[] = $tree_element;
             
@@ -248,8 +257,8 @@ class Editor {
 
         $canvas_html = '';
         $this->CreateCanvas($canvas_html);
-
-        $html .= "<section class='p-2 w-100 flex justify-between align-start flex-grow-1 gap-2' style='height: 90svh;'>"; // Main container
+        $id = $this->isDesign ? "id='main-editor'" : '';
+        $html .= "<section {$id} class='p-2 w-100 flex justify-between align-start flex-grow-1 gap-2' style='height: 90svh;'>"; // Main container
             if($this->isDesign) $this->CreateLeftAside($html);
             $html .= $canvas_html;
             if($this->isDesign) $this->CreateRightAside($html);
