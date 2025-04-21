@@ -2,3 +2,29 @@ li.component-list-item:hover {
     cursor: grab;
     background-color: #6c767f;
 }
+
+
+li.component-tree-item span:hover {
+    cursor: grab;
+    background-color: #6c767f;
+}
+
+section[data-panel='editor-panel-component-tree-structure'] ul > li > span {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
+section[data-panel='editor-panel-component-tree-structure'] ul > li > span::before {
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+section[data-panel='editor-panel-component-tree-structure'] ul > li:has(> ul:not(.d-none) > li) > span::before {
+    content: '\f078';
+}
+
+section[data-panel='editor-panel-component-tree-structure'] ul > li:has(> ul.d-none > li) > span::before {
+    content: '\f054';
+}

@@ -194,5 +194,42 @@
     "editor-add-panel-right": {
         "en": "Add to right",
         "es": "Añadir a la derecha"
+    },
+
+    "editor-plugin-box": {
+        "en": "Box",
+        "es": "Contenedor"
+    },
+    "editor-plugin-checkbox": {
+        "en": "Checkbox",
+        "es": "Checkbox"
+    },
+    "editor-plugin-date": {
+        "en": "Date",
+        "es": "Fecha"
+    },
+    "editor-plugin-edit": {
+        "en": "Edit",
+        "es": "Editable"
+    },
+    "editor-plugin-footer": {
+        "en": "Footer",
+        "es": "Pie de página"
+    },
+    "editor-plugin-header": {
+        "en": "Header",
+        "es": "Cabecera"
+    },
+    "editor-plugin-link": {
+        "en": "Link",
+        "es": "Enlace"
+    },
+    "editor-plugin-paragraph": {
+        "en": "Paragraph",
+        "es": "Párrafo"
+    },
+    "editor-plugin-radio": {
+        "en": "Radio",
+        "es": "Radio"
     }
 }

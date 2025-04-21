@@ -16,7 +16,7 @@ const removepanel = async e => {
         data: { Panel }
     });
     
-    Panel_node.remove();
+    location.reload();
 };
 
 const _add_component = async (Panel, Side) => {
@@ -86,8 +86,21 @@ const show_modal_panels = async () => {
     content.append(wrapper);
 };
 
+const toggle_child_element = e => {
+    const element = e.target.closest('.component-tree-item');
+    if(element === null) return;
+
+    const ul = element.querySelector('ul');
+    if(ul === null) return;
+    const classList = ul.classList;
+
+    if(classList.contains('d-none')) classList.remove('d-none');
+    else classList.add('d-none');
+};
+
 document.querySelectorAll('.removepanel')?.forEach((item, _) => {
     item.addEventListener('click', removepanel);
 });
 
 document.getElementById('add-panel')?.addEventListener('click', show_modal_panels);
+document.querySelector('section[data-panel="editor-panel-component-tree-structure"]')?.addEventListener('click', toggle_child_element);

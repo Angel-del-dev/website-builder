@@ -13,6 +13,8 @@ class Editor {
     private array $left_panel;
     private array $right_panel;
 
+    private array $component_tree;
+
     public function __construct() {
         $this->params = [];
         $this->isDesign = false;
@@ -22,6 +24,7 @@ class Editor {
 
         $this->left_panel = [];
         $this->right_panel = [];
+        $this->component_tree = [];
 
         $this->_handle_version();
     }
@@ -57,7 +60,7 @@ class Editor {
                 <i class='removepanel pointer fa-solid fa-xmark fa-1x'></i>
             </span>
             <div
-                class='p-1 flex-grow-1 w-100 h-100 overflow-y'
+                class='p-1 flex-grow-1 w-100 h-100 overflow-y overflow-x'
             >
         ", Translation::Get('backoffice', $name));
 
@@ -78,20 +81,52 @@ class Editor {
         $html .= $this->_DrawGenericPanel($name, $maxHeight);
         $html .= $this->_DrawEndGenericPanel();
     }
+
+    private function _draw_tree_slice(string &$html, array $children):void {
+        if($children === []) return;
+
+        $html .= "<ul class='w-100 flex justify-start align-start flex-column gap-1' style='padding-left: 20px;list-style: none;'>";
+
+        foreach($children as $child) {
+            $html .= "<li class='component-tree-item flex justify-start align-start flex-column gap-1' style='white-space:nowrap; width: fit-content;'>";
+            $type = Translation::Get('backoffice', "editor-plugin-{$child['type']}");
+                $html .= "
+                    <span title='{$child['name']} : {$type}' class='p-1' style='min-width: 100%; width: fit-content !important;'>
+                        {$child['name']} : {$type}
+                    </span>
+                ";
+                if(isset($child['children'])) {
+                    $this->_draw_tree_slice($html, $child['children']);
+                }
+            $html .= "</li>";
+        }
+
+        $html .= "</ul>";
+    }
+
     private function DrawTreeStructure(string &$html, string $name, float $maxHeight = 100):void {
         $html .= $this->_DrawGenericPanel($name, $maxHeight);
+
+        $html .= "
+            <ul class='p-0 w-100 h-100 m-0 flex justify-start align-start flex-column gap-1' style='list-style: none; color: var(--white);'>
+                <li class='pointer w-100 component-tree-item'><span class='w-100 p-1'>Root : Window</span></li>
+        ";
+        $this->_draw_tree_slice($html, $this->component_tree['root']['children']);
+        $html .= "
+            </ul>
+        ";
+
         $html .= $this->_DrawEndGenericPanel();
     }
     private function DrawComponentList(string &$html, string $name, float $maxHeight = 100):void {
         $html .= $this->_DrawGenericPanel($name, $maxHeight);
         $components = scandir(sprintf('%s/../components/Editor.plugin/components', $_SERVER['DOCUMENT_ROOT']));
-        $components = array_merge($components, $components);
-        $components = array_merge($components, $components);
         $html .= '<ul class="p-0 m-0" style="list-style: none;">';
         foreach($components as $component) {
             if(in_array($component, ['.', '..'])) continue;
+            $name = Translation::Get('backoffice', "editor-plugin-{$component}");
             $html .= "
-                <li class='p-1 component-list-item' style='color: var(--white);'>{$component}</li>
+                <li title='{$name}' data-type='component-schema' class='text-ellipsis p-1 component-list-item' style='color: var(--white);'>{$name}</li>
             ";
         }
         $html .= '</ul>';
@@ -161,9 +196,42 @@ class Editor {
 
     private function CreateCanvas(string &$html):void {
         $html .= "
-            <article class='overflow-y radius-1 h-100 flex-grow-1' style='background-color: #add8e6;'>
-            </article>
+            <article 
+                class='overflow-y radius-1 h-100 flex-grow-1' 
+                style='background-color: #add8e6;'
+            >
         ";
+
+        require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/Editor.plugin/models/EditorConfig.h.php");
+        $Page = EditorConfigModel::GetPageContents($this->params['p']);
+        $tree = [
+            'root' => [
+                'children' => []
+            ]
+        ];
+        $tree['root']['children'] = $this->ParsePage($Page, $html, []);
+        
+        if($this->isDesign) $this->component_tree = $tree;
+
+        $html .= "</article>";
+    }
+
+    private function ParsePage(array $Elements, string &$html, array $tree_slice = []):array {
+        $base_route = "{$_SERVER['DOCUMENT_ROOT']}/../components/Editor.plugin/components";
+        foreach($Elements as $element) {
+            if(!is_dir("{$base_route}/{$element->type}")) continue;
+            // TODO: Handle the html
+            $tree_element = [ 'name' => $element->name, 'type' => $element->type, 'children' => [] ];
+
+            if(isset($element->children) && $element->children !== []) {
+                $tree_element['children'] = $this->ParsePage($element->children, $html, []);
+            }
+
+            $tree_slice[] = $tree_element;
+            
+        }
+
+        return $tree_slice;
     }
 
     public function Render():string {
@@ -177,9 +245,13 @@ class Editor {
         }
         $html = '';
         $this->GetPanelsConfiguration();
+
+        $canvas_html = '';
+        $this->CreateCanvas($canvas_html);
+
         $html .= "<section class='p-2 w-100 flex justify-between align-start flex-grow-1 gap-2' style='height: 90svh;'>"; // Main container
             if($this->isDesign) $this->CreateLeftAside($html);
-            $this->CreateCanvas($html);
+            $html .= $canvas_html;
             if($this->isDesign) $this->CreateRightAside($html);
         $html .= '</section>'; // Main container
 

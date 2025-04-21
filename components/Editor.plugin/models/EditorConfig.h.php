@@ -104,4 +104,29 @@ class EditorConfigModel extends Model {
         $sql->Execute();
         $sql->close();
     }
+
+    public static function GetPageContents(string $Slug):array {
+        self::Connection();
+
+        $sql = self::$connection->newQuery('
+            SELECT CONTENTS
+            FROM PAGES
+            WHERE SLUG = :SLUG
+        ');
+        $sql->params->SLUG = $Slug;
+        $Data = $sql->Execute();
+        $sql->close();
+
+        if(count($Data) === 0) {
+            $msg = "Could not obtain contents from '{$Slug}'";
+            Log::Entry($msg);
+            http_response_code(404);
+            exit;
+        }
+
+        $Contents = trim($Data[0]['CONTENTS']);
+        if($Contents === '') $Contents = '[]';
+
+        return json_decode($Contents);
+    }
 }
