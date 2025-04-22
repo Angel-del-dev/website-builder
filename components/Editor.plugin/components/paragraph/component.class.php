@@ -10,16 +10,24 @@ class paragraph {
         $this->componentname = 'paragraph';
     }
 
-    public function GetAllowedParams():array {
-        return [
+    private function GetParamValue(string $key):string {
+        return isset($this->params->$key) ? $this->params->$key : '';
+    }
 
+    public function GetControls():array {
+        return [
+            'name' => [ 'type' => 'text', 'label' => 'Name', 'value' => $this->GetParamValue('name') ],
+            'caption' => [ 'type' => 'text', 'label' => 'Caption', 'value' => $this->GetParamValue('caption') ],
         ];
     }
+    
 
     public function StartRender():string {
         $component = '';
         if($this->isDesign) {
-            $component = " component='{$this->componentname}' ";
+            $component_params = clone $this->params;
+            unset($component_params->children);
+            $component = sprintf(" properties='%s' component='{$this->componentname}' ", json_encode($component_params));
         }
         return "
             <p

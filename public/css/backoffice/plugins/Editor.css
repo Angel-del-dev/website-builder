@@ -9,6 +9,21 @@ li.component-tree-item span:hover {
     background-color: #6c767f;
 }
 
+section[data-panel="editor-panel-component-options"] input:not([type="checkbox"]):not([type="radio"]),
+section[data-panel="editor-panel-component-options"] select {
+    background-color: transparent;
+    border-bottom: 1px solid var(--white);
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    color: var(--white);
+    outline: none;
+}
+
+section[data-panel="editor-panel-component-options"] select option {
+    color: var(--black);
+}
+
 section[data-panel='editor-panel-component-tree-structure'] ul > li > span {
     display: flex;
     justify-content: flex-start;

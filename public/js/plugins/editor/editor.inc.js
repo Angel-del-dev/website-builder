@@ -1,8 +1,71 @@
 const { Request } = await require("../components/Request.inc.js");
 const { modal } = await require("../components/modal.inc.js");
-const { useTranslation } = await require("../components/hooks.inc.js");
+const { useTranslation, useState } = await require("../components/hooks.inc.js");
 
+const [ getFocusedElement, setFocusedElement ] = useState(null);
 const [ getTranslation ] = await useTranslation('backoffice');
+
+const generate_controls = (Panel, Controls) => {
+    Panel.innerHTML = '';
+    Object.keys(Controls).forEach((k, _) => {
+        const {
+            type, label, value, options
+        } = Controls[k];
+        const row = document.createElement('div');
+        row.classList.add('flex', 'justify-between', 'align-center', 'w-100');
+        const lbl = document.createElement('label');
+        lbl.style = `
+            color: var(--white);
+        `;
+
+        let element = null;
+        switch(type.toUpperCase()) {
+            case 'TEXT':
+                element = document.createElement('input');
+                element.type = 'text';
+                if(value !== undefined && value !== null) element.value = value;
+            break;
+            case 'LIST':
+                element = document.createElement('select');
+                if(value !== undefined && value !== null) element.value = value;
+                if(options !== undefined && options !== null) {
+                    options.forEach((opt, _) => {
+                        const option = document.createElement('option');
+                        option.value = opt.value;
+                        option.append(document.createTextNode(opt.name));
+                        element.append(option);
+                    });
+                }
+            break;
+        }
+        if(element === null) throw new Error(`component '${type}' is not available`);
+        element.style.setProperty('width', '40%');
+
+        // TODO Add translations form label
+        lbl.append(document.createTextNode(`${label}:`));
+
+        row.append(lbl, element);
+        Panel.append(row);
+    });
+};
+
+const get_component_properties = async () => {
+    const panel = document.querySelector('[data-panel="editor-panel-component-options"]')?.querySelector('div');
+    
+    if(panel === null) return;
+
+    const element = getFocusedElement();
+    if(element === null) return;
+    let prop = element.getAttribute('properties');
+    if(prop === null) return;
+    const Properties = JSON.parse(prop);
+    const { Controls } = await Request({
+        url: `/${BACKOFFICE_PREFIX}/editor/get-properties`,
+        method: 'POST',
+        data: { ...Properties }
+    });
+    generate_controls(panel, Controls);
+}
 
 const removepanel = async e => {
     e.preventDefault();
@@ -97,7 +160,11 @@ const toggle_child_element = e => {
 
     document.querySelectorAll('.builder-canvas .active')?.forEach((builder_node, _) => builder_node.classList.remove('active'));
 
-    document.getElementById(`${selected_item.id.replaceAll('tree-', '')}`)?.classList.add('active');
+    const element_from_canvas_id = selected_item.id.replaceAll('tree-', '');
+    setFocusedElement(document.getElementById(element_from_canvas_id));
+    document.getElementById(`${element_from_canvas_id}`)?.classList.add('active');
+
+    get_component_properties();
 
     const ul = element.querySelector('ul');
     if(ul === null) return;
@@ -121,6 +188,8 @@ const select_current_component = e => {
 
     document.querySelectorAll('.builder-canvas [component].active')?.forEach((cmp, _) => cmp.classList.remove('active'));
     component_node.classList.add('active');
+    setFocusedElement(component_node);
+    get_component_properties();
     // Select the element on the tree structure panel if exists
 
     const tree = document.querySelector('section[data-panel="editor-panel-component-tree-structure"]')

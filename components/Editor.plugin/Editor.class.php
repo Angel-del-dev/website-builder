@@ -60,7 +60,7 @@ class Editor {
                 <i class='removepanel pointer fa-solid fa-xmark fa-1x'></i>
             </span>
             <div
-                class='p-1 flex-grow-1 w-100 h-100 overflow-y overflow-x'
+                class='p-1 flex-grow-1 w-100 h-100 overflow-y overflow-x flex justify-start align-start flex-column gap-1'
             >
         ", Translation::Get('backoffice', $name));
 
@@ -243,6 +243,15 @@ class Editor {
         }
 
         return $tree_slice;
+    }
+
+    public function GetControls(array $Properties):array {
+        $base_route = "{$_SERVER['DOCUMENT_ROOT']}/../components/Editor.plugin/components";
+        if(!is_dir("{$base_route}/{$Properties['type']}")) return [];
+        if(!is_file("{$base_route}/{$Properties['type']}/component.class.php")) return [];
+        require_once("{$base_route}/{$Properties['type']}/component.class.php");
+        $component = new $Properties['type'](json_decode(json_encode($Properties), false), true);
+        return $component->GetControls();
     }
 
     public function Render():string {
