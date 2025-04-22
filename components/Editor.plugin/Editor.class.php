@@ -162,6 +162,7 @@ class Editor {
     }
 
     private function CreateLeftAside(string &$html):void {
+        if(count($this->left_panel) === 0) return;
         $html .= "
             <aside 
                 class='no-user-select overflow-y h-100 radius-1 flex justify-center align-center flex-column gap-2 p-2' 
@@ -178,6 +179,7 @@ class Editor {
     }
 
     private function CreateRightAside(string &$html):void {
+        if(count($this->right_panel) === 0) return;
         $html .= "
             <aside 
                 class='no-user-select overflow-y h-100 radius-1 flex justify-center align-center flex-column gap-2 p-2' 
