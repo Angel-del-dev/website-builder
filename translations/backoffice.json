@@ -231,5 +231,22 @@
     "editor-plugin-radio": {
         "en": "Radio",
         "es": "Radio"
+    },
+
+    "editor-property-name": {
+        "en": "Name",
+        "es": "Nombre"
+    },
+    "editor-property-vertical": {
+        "en": "Vertical",
+        "es": "Vertical"
+    },
+    "editor-property-horizontal": {
+        "en": "Horizontal",
+        "es": "Horizontal"
+    },
+    "editor-property-caption": {
+        "en": "Caption",
+        "es": "Texto"
     }
 }

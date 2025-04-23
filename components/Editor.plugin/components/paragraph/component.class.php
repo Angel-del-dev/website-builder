@@ -16,8 +16,8 @@ class paragraph {
 
     public function GetControls():array {
         return [
-            'name' => [ 'type' => 'text', 'label' => 'Name', 'value' => $this->GetParamValue('name') ],
-            'caption' => [ 'type' => 'text', 'label' => 'Caption', 'value' => $this->GetParamValue('caption') ],
+            'name' => [ 'type' => 'text', 'label' => 'name', 'value' => $this->GetParamValue('name') ],
+            'caption' => [ 'type' => 'text', 'label' => 'caption', 'value' => $this->GetParamValue('caption') ],
         ];
     }
     

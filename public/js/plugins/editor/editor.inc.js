@@ -41,8 +41,7 @@ const generate_controls = (Panel, Controls) => {
         if(element === null) throw new Error(`component '${type}' is not available`);
         element.style.setProperty('width', '40%');
 
-        // TODO Add translations form label
-        lbl.append(document.createTextNode(`${label}:`));
+        lbl.append(document.createTextNode(`${getTranslation(`editor-property-${label}`)}:`));
 
         row.append(lbl, element);
         Panel.append(row);

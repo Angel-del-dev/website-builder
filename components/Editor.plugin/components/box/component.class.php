@@ -16,9 +16,9 @@ class box {
 
     public function GetControls():array {
         return [
-            'name' => [ 'type' => 'text', 'label' => 'Name', 'value' => $this->GetParamValue('name') ],
-            'v-align' => [ 'type' => 'list', 'options' => [['name' => 'start', 'value' => 'justify-start'], ['name' => 'center', 'value' => 'justify-center'], ['name' => 'end', 'value' => 'justify-end'], ['name' => 'between', 'value' => 'justify-between'], ['name' => 'around', 'value' => 'justify-around'], ['name' => 'evenly', 'value' => 'justify-evenly']], 'label' => 'Vertical', 'value' => $this->GetParamValue('caption') ],
-            'h-align' => [ 'type' => 'list', 'options' => [['name' => 'start', 'value' => 'align-start'], ['name' => 'center', 'value' => 'align-center'], ['name' => 'end', 'value' => 'align-end'], ], 'label' => 'Horizontal', 'value' => $this->GetParamValue('caption') ],
+            'name' => [ 'type' => 'text', 'label' => 'name', 'value' => $this->GetParamValue('name') ],
+            'v-align' => [ 'type' => 'list', 'options' => [['name' => 'start', 'value' => 'justify-start'], ['name' => 'center', 'value' => 'justify-center'], ['name' => 'end', 'value' => 'justify-end'], ['name' => 'between', 'value' => 'justify-between'], ['name' => 'around', 'value' => 'justify-around'], ['name' => 'evenly', 'value' => 'justify-evenly']], 'label' => 'vertical', 'value' => $this->GetParamValue('caption') ],
+            'h-align' => [ 'type' => 'list', 'options' => [['name' => 'start', 'value' => 'align-start'], ['name' => 'center', 'value' => 'align-center'], ['name' => 'end', 'value' => 'align-end'], ], 'label' => 'horizontal', 'value' => $this->GetParamValue('caption') ],
         ];
     }
 
