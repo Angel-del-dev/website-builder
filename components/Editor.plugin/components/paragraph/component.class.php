@@ -22,7 +22,7 @@ class paragraph {
     }
     
 
-    public function StartRender():string {
+    public function StartRender(int $position = 0):string {
         $component = '';
         if($this->isDesign) {
             $component_params = clone $this->params;
@@ -31,7 +31,7 @@ class paragraph {
         }
         return "
             <p
-                id='{$this->params->name}'
+                id='{$this->params->name}' position='{$position}' children-allowed='false'
                 {$component}
             >
                 {$this->params->caption}

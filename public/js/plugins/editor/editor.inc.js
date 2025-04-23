@@ -5,6 +5,33 @@ const { useTranslation, useState } = await require("../components/hooks.inc.js")
 const [ getFocusedElement, setFocusedElement ] = useState(null);
 const [ getTranslation ] = await useTranslation('backoffice');
 
+const get_full_component_selector = (element = null, indexes = []) => {
+    if(element === null) element = getFocusedElement();
+    indexes.push(parseInt(element.getAttribute('position')));
+    const parent_component = element.parentNode.closest('[component]');
+    if(parent_component === null) {
+        // This is the end condition, there's no more parent components
+        return indexes.reverse(); // Reverse the indexes array for easier traversing
+    }
+
+    indexes.push('children');
+    return get_full_component_selector(parent_component, indexes);
+};
+
+const change_property_value = e => {
+    const PropertyName = e.target.getAttribute('control-name');
+    const Value = e.target.value.trim();
+    const indexes = get_full_component_selector(null, []);
+    
+    console.log(PAGESTRUCTURE);
+    let slice_ptr = PAGESTRUCTURE;
+    for(let slice of indexes) {
+        slice_ptr = slice_ptr[slice];
+    }
+    slice_ptr[PropertyName] = Value
+    console.log(PAGESTRUCTURE);
+}
+
 const generate_controls = (Panel, Controls) => {
     Panel.innerHTML = '';
     Object.keys(Controls).forEach((k, _) => {
@@ -39,6 +66,10 @@ const generate_controls = (Panel, Controls) => {
             break;
         }
         if(element === null) throw new Error(`component '${type}' is not available`);
+
+        element.setAttribute('control-name', label);
+        element.addEventListener('change', change_property_value);
+
         element.style.setProperty('width', '40%');
 
         lbl.append(document.createTextNode(`${getTranslation(`editor-property-${label}`)}:`));

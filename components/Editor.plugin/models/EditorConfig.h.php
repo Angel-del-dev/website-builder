@@ -123,7 +123,7 @@ class EditorConfigModel extends Model {
             http_response_code(404);
             exit;
         }
-
+        
         $Contents = trim($Data[0]['CONTENTS']);
         if($Contents === '') $Contents = '[]';
 

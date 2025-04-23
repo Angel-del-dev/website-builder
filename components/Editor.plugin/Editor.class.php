@@ -14,6 +14,7 @@ class Editor {
     private array $right_panel;
 
     private array $component_tree;
+    private array $PageStructure;
 
     public function __construct() {
         $this->params = [];
@@ -25,6 +26,7 @@ class Editor {
         $this->left_panel = [];
         $this->right_panel = [];
         $this->component_tree = [];
+        $this->PageStructure = [];
 
         $this->_handle_version();
     }
@@ -212,6 +214,7 @@ class Editor {
                 'children' => []
             ]
         ];
+        $this->PageStructure = $Page;
         $tree['root']['children'] = $this->ParsePage($Page, $html, []);
         
         if($this->isDesign) $this->component_tree = $tree;
@@ -221,6 +224,7 @@ class Editor {
 
     private function ParsePage(array $Elements, string &$html, array $tree_slice = []):array {
         $base_route = "{$_SERVER['DOCUMENT_ROOT']}/../components/Editor.plugin/components";
+        $i = 0;
         foreach($Elements as $element) {
             if(!is_dir("{$base_route}/{$element->type}")) continue;
             if(!is_file("{$base_route}/{$element->type}/component.class.php")) continue;
@@ -228,14 +232,14 @@ class Editor {
             
             $component = new $element->type($element, $this->isDesign);
 
-            $html .= $component->StartRender();
+            $html .= $component->StartRender($i++);
 
             $tree_element = [ 'name' => $element->name, 'type' => $element->type, 'children' => [] ];
 
             if(isset($element->children) && $element->children !== []) {
                 $tree_element['children'] = $this->ParsePage($element->children, $html, []);
             }
-
+            
             $html .= $component->EndRender();
 
             $tree_slice[] = $tree_element;
@@ -274,6 +278,8 @@ class Editor {
             $html .= $canvas_html;
             if($this->isDesign) $this->CreateRightAside($html);
         $html .= '</section>'; // Main container
+
+        $html .= sprintf("<script> const PAGESTRUCTURE = JSON.parse('%s')</script>", json_encode($this->PageStructure));
 
         return $html;
     }
