@@ -29,6 +29,10 @@ class Page extends BackofficePage {
                 $btn = $this->Renderer->Button('add-panel', "<i class='fa-solid fa-plus fa-1x'></i>");
                 $btn->class = ' pointer ';
                 $btn->style = 'background-color: transparent; color: var(--white); border: 0; outline: none;';
+
+                $btn = $this->Renderer->Button('save-page', "<i class='fa-solid fa-check fa-1x'></i>");
+                $btn->class = ' pointer d-none ';
+                $btn->style = 'background-color: transparent; color: var(--white); border: 0; outline: none;';
             $this->Renderer->EndDiv();
         $this->Renderer->EndDiv();
 

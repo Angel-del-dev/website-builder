@@ -5,6 +5,16 @@ const { useTranslation, useState } = await require("../components/hooks.inc.js")
 const [ getFocusedElement, setFocusedElement ] = useState(null);
 const [ getTranslation ] = await useTranslation('backoffice');
 
+const save_page = async e => {
+    e.preventDefault();
+    await Request({
+        url: `/${BACKOFFICE_PREFIX}/pages/page/save-changes`,
+        method: 'POST',
+        data: { Page: CURRENTPAGE, Contents: JSON.stringify(PAGESTRUCTURE) }
+    });
+    document.getElementById('save-page')?.classList.add('d-none');
+}
+
 const get_full_component_selector = (element = null, indexes = []) => {
     if(element === null) element = getFocusedElement();
     indexes.push(parseInt(element.getAttribute('position')));
@@ -18,18 +28,39 @@ const get_full_component_selector = (element = null, indexes = []) => {
     return get_full_component_selector(parent_component, indexes);
 };
 
-const change_property_value = e => {
+const change_property_value = async e => {
     const PropertyName = e.target.getAttribute('control-name');
     const Value = e.target.value.trim();
     const indexes = get_full_component_selector(null, []);
     
-    console.log(PAGESTRUCTURE);
     let slice_ptr = PAGESTRUCTURE;
     for(let slice of indexes) {
         slice_ptr = slice_ptr[slice];
     }
-    slice_ptr[PropertyName] = Value
-    console.log(PAGESTRUCTURE);
+    slice_ptr[PropertyName] = Value;
+
+    // Obtain new html
+    const { Html, TreeStructure } = await Request({
+        url: `/${BACKOFFICE_PREFIX}/editor/render-page-from-json`,
+        method: 'POST',
+        data: { Page: JSON.stringify(PAGESTRUCTURE) }
+    });
+
+    const parser = new DOMParser();
+    const canvas = parser.parseFromString(Html, 'text/html');
+
+    document.querySelector('article.builder-canvas').innerHTML = canvas.querySelector('article.builder-canvas').innerHTML;
+
+    const panel = document.querySelector('[data-panel="editor-panel-component-tree-structure"]');
+    if(panel !== null) {
+        const structure = parser.parseFromString(TreeStructure, 'text/html');
+        
+        panel.querySelector('ul').innerHTML = structure.querySelector('ul').innerHTML;
+    }
+
+    document.querySelector('[data-panel="editor-panel-component-options"] div').innerHTML = '';
+    setFocusedElement(null);
+    document.getElementById('save-page')?.classList.remove('d-none');
 }
 
 const generate_controls = (Panel, Controls) => {
@@ -236,3 +267,4 @@ document.getElementById('main-editor')?.addEventListener('contextmenu', handle_c
 document.getElementById('add-panel')?.addEventListener('click', show_modal_panels);
 document.querySelector('section[data-panel="editor-panel-component-tree-structure"]')?.addEventListener('click', toggle_child_element);
 document.querySelector('.builder-canvas')?.addEventListener('click', select_current_component);
+document.getElementById('save-page')?.addEventListener('click', save_page);

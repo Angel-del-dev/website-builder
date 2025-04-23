@@ -106,7 +106,7 @@ class Editor {
         $html .= "</ul>";
     }
 
-    private function DrawTreeStructure(string &$html, string $name, float $maxHeight = 100):void {
+    public function DrawTreeStructure(string &$html, string $name, float $maxHeight = 100):void {
         $html .= $this->_DrawGenericPanel($name, $maxHeight);
 
         $html .= "
@@ -207,14 +207,18 @@ class Editor {
             >
         ";
 
-        require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/Editor.plugin/models/EditorConfig.h.php");
-        $Page = EditorConfigModel::GetPageContents($this->params['p']);
-        $tree = [
-            'root' => [
-                'children' => []
-            ]
-        ];
-        $this->PageStructure = $Page;
+        $Page = $this->params;
+
+        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+            require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/Editor.plugin/models/EditorConfig.h.php");
+            $Page = EditorConfigModel::GetPageContents($this->params['p']);
+            $tree = [
+                'root' => [
+                    'children' => []
+                ]
+            ];
+            $this->PageStructure = $Page;
+        }
         $tree['root']['children'] = $this->ParsePage($Page, $html, []);
         
         if($this->isDesign) $this->component_tree = $tree;
@@ -249,6 +253,10 @@ class Editor {
         return $tree_slice;
     }
 
+    public function SetPage(array $Page):void {
+        $this->params = $Page;
+    }
+
     public function GetControls(array $Properties):array {
         $base_route = "{$_SERVER['DOCUMENT_ROOT']}/../components/Editor.plugin/components";
         if(!is_dir("{$base_route}/{$Properties['type']}")) return [];
@@ -274,12 +282,19 @@ class Editor {
         $this->CreateCanvas($canvas_html);
         $id = $this->isDesign ? "id='main-editor'" : '';
         $html .= "<section {$id} class='p-2 w-100 flex justify-between align-start flex-grow-1 gap-2' style='height: 90svh;'>"; // Main container
-            if($this->isDesign) $this->CreateLeftAside($html);
+            if($this->isDesign && $_SERVER['REQUEST_METHOD'] === 'GET') $this->CreateLeftAside($html);
             $html .= $canvas_html;
-            if($this->isDesign) $this->CreateRightAside($html);
+            if($this->isDesign && $_SERVER['REQUEST_METHOD'] === 'GET') $this->CreateRightAside($html);
         $html .= '</section>'; // Main container
 
-        $html .= sprintf("<script> const PAGESTRUCTURE = JSON.parse('%s')</script>", json_encode($this->PageStructure));
+        if($this->isDesign && $_SERVER['REQUEST_METHOD'] === 'GET') {
+            $html .= sprintf("
+                <script> 
+                    const PAGESTRUCTURE = JSON.parse('%s');
+                    const CURRENTPAGE = `%s`;
+                </script>
+            ", json_encode($this->PageStructure), $this->params['p']);
+        }
 
         return $html;
     }
