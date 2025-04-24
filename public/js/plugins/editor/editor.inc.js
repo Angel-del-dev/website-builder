@@ -29,6 +29,7 @@ const get_full_component_selector = (element = null, indexes = []) => {
 };
 
 const change_property_value = async e => {
+    const CurrentId = getFocusedElement().id;
     const PropertyName = e.target.getAttribute('control-name');
     const Value = e.target.value.trim();
     const indexes = get_full_component_selector(null, []);
@@ -60,7 +61,8 @@ const change_property_value = async e => {
 
     document.querySelector('[data-panel="editor-panel-component-options"] div').innerHTML = '';
     setFocusedElement(null);
-    document.getElementById('save-page')?.classList.remove('d-none');
+    // document.getElementById('save-page')?.classList.remove('d-none');
+    document.getElementById(slice_ptr['name'])?.click();
 }
 
 const generate_controls = (Panel, Controls) => {
