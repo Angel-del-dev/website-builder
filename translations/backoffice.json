@@ -248,5 +248,17 @@
     "editor-property-caption": {
         "en": "Caption",
         "es": "Texto"
+    },
+    "editor-property-gap": {
+        "en": "Spacing",
+        "es": "Separación"
+    },
+    "editor-property-padding": {
+        "en": "Padding",
+        "es": "Relleno"
+    },
+    "editor-property-direction": {
+        "en": "Direction",
+        "es": "Dirección"
     }
 }

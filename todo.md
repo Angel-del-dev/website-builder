@@ -15,10 +15,11 @@
         * [X] Process
     * [ ] Aside with privileges
     * [ ] pre-alfa designer
-        * [ ] Designer
-        * [ ] cfg to html
+        * [X] Designer
+        * [X] cfg to html
         * [ ] importing components
         * [ ] drag & drop
+        * [ ] Generate static css from json
     * [ ] Allow change the prefix for the backoffice
 * Front
     * [ ] Page renderer

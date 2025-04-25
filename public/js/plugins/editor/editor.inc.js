@@ -1,5 +1,6 @@
 const { Request } = await require("../components/Request.inc.js");
 const { modal } = await require("../components/modal.inc.js");
+const { init_drag_drop } = await require("../plugins/editor/dragndrop.inc.js");
 const { useTranslation, useState } = await require("../components/hooks.inc.js");
 
 const [ getFocusedElement, setFocusedElement ] = useState(null);
@@ -29,7 +30,6 @@ const get_full_component_selector = (element = null, indexes = []) => {
 };
 
 const change_property_value = async e => {
-    const CurrentId = getFocusedElement().id;
     const PropertyName = e.target.getAttribute('control-name');
     const Value = e.target.value.trim();
     const indexes = get_full_component_selector(null, []);
@@ -59,10 +59,9 @@ const change_property_value = async e => {
         panel.querySelector('ul').innerHTML = structure.querySelector('ul').innerHTML;
     }
 
-    document.querySelector('[data-panel="editor-panel-component-options"] div').innerHTML = '';
-    setFocusedElement(null);
-    // document.getElementById('save-page')?.classList.remove('d-none');
-    document.getElementById(slice_ptr['name'])?.click();
+    document.getElementById('save-page')?.classList.remove('d-none');
+    setFocusedElement(document.getElementById(slice_ptr['name']));
+    getFocusedElement().classList.add('active');
 }
 
 const generate_controls = (Panel, Controls) => {
@@ -91,6 +90,7 @@ const generate_controls = (Panel, Controls) => {
                 if(options !== undefined && options !== null) {
                     options.forEach((opt, _) => {
                         const option = document.createElement('option');
+                        option.selected = opt.value === value;
                         option.value = opt.value;
                         option.append(document.createTextNode(opt.name));
                         element.append(option);
@@ -270,3 +270,4 @@ document.getElementById('add-panel')?.addEventListener('click', show_modal_panel
 document.querySelector('section[data-panel="editor-panel-component-tree-structure"]')?.addEventListener('click', toggle_child_element);
 document.querySelector('.builder-canvas')?.addEventListener('click', select_current_component);
 document.getElementById('save-page')?.addEventListener('click', save_page);
+init_drag_drop();
