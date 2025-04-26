@@ -53,3 +53,7 @@ section[data-panel='editor-panel-component-tree-structure'] span.active {
     color: var(--black);
     border-radius: 5px;
 }
+
+.edit-hover {
+    border: 1px dashed orange;
+}

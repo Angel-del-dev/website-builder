@@ -6,8 +6,8 @@ const { useTranslation, useState } = await require("../components/hooks.inc.js")
 const [ getFocusedElement, setFocusedElement ] = useState(null);
 const [ getTranslation ] = await useTranslation('backoffice');
 
-const save_page = async e => {
-    e.preventDefault();
+const save_page = async (e = null) => {
+    e?.preventDefault();
     await Request({
         url: `/${BACKOFFICE_PREFIX}/pages/page/save-changes`,
         method: 'POST',
@@ -29,6 +29,25 @@ const get_full_component_selector = (element = null, indexes = []) => {
     return get_full_component_selector(parent_component, indexes);
 };
 
+const redraw_page_content_from_state = async () => {
+    const { Html, TreeStructure } = await Request({
+        url: `/${BACKOFFICE_PREFIX}/editor/render-page-from-json`,
+        method: 'POST',
+        data: { Page: JSON.stringify(PAGESTRUCTURE) }
+    });
+
+    const parser = new DOMParser();
+    const canvas = parser.parseFromString(Html, 'text/html');
+    document.querySelector('article.builder-canvas').innerHTML = canvas.querySelector('article.builder-canvas').innerHTML;
+
+    const panel = document.querySelector('[data-panel="editor-panel-component-tree-structure"]');
+    if(panel !== null) {
+        const structure = parser.parseFromString(TreeStructure, 'text/html');
+        
+        panel.querySelector('ul').innerHTML = structure.querySelector('ul').innerHTML;
+    }
+}
+
 const change_property_value = async e => {
     const PropertyName = e.target.getAttribute('control-name');
     const Value = e.target.value.trim();
@@ -41,23 +60,7 @@ const change_property_value = async e => {
     slice_ptr[PropertyName] = Value;
 
     // Obtain new html
-    const { Html, TreeStructure } = await Request({
-        url: `/${BACKOFFICE_PREFIX}/editor/render-page-from-json`,
-        method: 'POST',
-        data: { Page: JSON.stringify(PAGESTRUCTURE) }
-    });
-
-    const parser = new DOMParser();
-    const canvas = parser.parseFromString(Html, 'text/html');
-
-    document.querySelector('article.builder-canvas').innerHTML = canvas.querySelector('article.builder-canvas').innerHTML;
-
-    const panel = document.querySelector('[data-panel="editor-panel-component-tree-structure"]');
-    if(panel !== null) {
-        const structure = parser.parseFromString(TreeStructure, 'text/html');
-        
-        panel.querySelector('ul').innerHTML = structure.querySelector('ul').innerHTML;
-    }
+    await redraw_page_content_from_state();   
 
     document.getElementById('save-page')?.classList.remove('d-none');
     setFocusedElement(document.getElementById(slice_ptr['name']));
@@ -270,4 +273,7 @@ document.getElementById('add-panel')?.addEventListener('click', show_modal_panel
 document.querySelector('section[data-panel="editor-panel-component-tree-structure"]')?.addEventListener('click', toggle_child_element);
 document.querySelector('.builder-canvas')?.addEventListener('click', select_current_component);
 document.getElementById('save-page')?.addEventListener('click', save_page);
-init_drag_drop();
+
+// Invoking drag & drop functionalities
+init_drag_drop({ get_full_component_selector, redraw_page_content_from_state })
+    .main({ canvas_focused_component: getFocusedElement });

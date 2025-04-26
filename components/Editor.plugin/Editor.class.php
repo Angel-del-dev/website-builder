@@ -199,7 +199,7 @@ class Editor {
     }
 
     private function CreateCanvas(string &$html):void {
-        $class = $this->isDesign ? ' builder-canvas ' : '';
+        $class = $this->isDesign ? ' builder-canvas no-user-select ' : '';
         $html .= "
             <article 
                 class='overflow-y radius-1 h-100 flex-grow-1 {$class}' 
