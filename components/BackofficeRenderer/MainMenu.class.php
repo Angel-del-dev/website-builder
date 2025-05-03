@@ -40,7 +40,6 @@ class MainMenu {
             $isSectionOpen = false;
             $li_class = 'pointer text-ellipsis';
             $li_style = 'padding: 10px 10px;';
-        
             foreach($Entries as $Entry) {
                 $isSameSection = $Entry['SECTION'] === $last_section;
                 $Name = Translation::Get('backoffice', $Entry['NAME']);
@@ -48,11 +47,11 @@ class MainMenu {
                 if($isSameSection) {
                     $html .= sprintf("
                         <li title='{$Name}' class='{$li_class}' style='{$li_style}'>
-                            <a class='w-100 h-100 flex flex-grow-1' href='/%/{$Entry['SLUG']}'>
+                            <a class='w-100 h-100 flex flex-grow-1' href='/%s{$Entry['SLUG']}'>
                                 %s
                             </a>
                         </li>
-                    ", $Name, BACKOFFICE_PREFIX);
+                    ", BACKOFFICE_PREFIX, $Name);
                     continue;
                 }
 

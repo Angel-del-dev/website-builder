@@ -134,6 +134,10 @@
         "en": "Languages",
         "es": "Idiomas"
     },
+    "menu-entries-test": {
+        "en": "Test",
+        "es": "test"
+    },
     "menu-section-pages": {
         "en": "Pages",
         "es": "Páginas"
