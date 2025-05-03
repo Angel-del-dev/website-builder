@@ -1,6 +1,5 @@
 <?php
 
-require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/Request/RequestHeaders.class.php");
 require_once("{$_SERVER['DOCUMENT_ROOT']}/../components/Request/ApiResponse.class.php");
 
 class Request {
@@ -12,6 +11,8 @@ class Request {
     private string $method;
     private array $parameters;
     private ApiResponse $response;
+    private bool $debug;
+    private bool $requestHasFiles;
     public function __construct() {
         $this->endpoint = null;
         $this->domain = null;
@@ -20,9 +21,13 @@ class Request {
         $this->password = null;
         $this->parameters = [];
         $this->response = new ApiResponse();
+        $this->debug = false;
+        $this->requestHasFiles = false;
         $this->Get();
     }
 
+    public function Debug():void { $this->debug = true; }
+    
     public function Response():ApiResponse { return $this->response; }
 
     // Checks
@@ -46,10 +51,10 @@ class Request {
                 $result = [];
             break;
             case 'POST':
-                $result = CURLOPT_POST;
+                $result = [CURLOPT_POST, true];
             break;
             case 'PUT':
-                $result = CURLOPT_PUT;
+                $result = [CURLOPT_PUT, true];
             break;
             case 'DELETE':
                 $result = [CURLOPT_CUSTOMREQUEST, 'DELETE'];
@@ -66,23 +71,28 @@ class Request {
         $this->BeforeExecute();
 
         $canContainParmeters = in_array($this->method, ['POST', 'PUT']);
-
         $ch = curl_init(sprintf("%s%s", $this->domain, $this->endpoint));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         if($canContainParmeters) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->parameters));
+            $params = $this->requestHasFiles ? $this->parameters : json_encode($this->parameters);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         }
 
         $MethodHeader = $this->GetMethodHeader();
 
         if(count($MethodHeader) === 2) curl_setopt($ch, $MethodHeader[0], $MethodHeader[1]);
+        if(count($this->headers) > 0) curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
+        
+        if($this->debug) {
+            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
+        }
 
-        $server_response = curl_exec($ch);
+        $this->response->SetResponse(curl_exec($ch));
         $this->response->SetStatusCode(curl_getinfo($ch, CURLINFO_HTTP_CODE));
-        $this->response->SetResponse($server_response);
         $this->response->SetError(curl_error($ch));
-
         $this->AfterExecute();
+        $this->CheckResponseForToken();
     }
 
     // Method types
@@ -129,9 +139,14 @@ class Request {
         $this->parameters[$name] = $value;
     }
 
+    public function AddFile(string $name, string $file_route, string $type='application/octet-stream'):void {
+        $this->parameters[$name] = new CURLFile($file_route, $type, uniqid());
+        $this->requestHasFiles = true;
+    }
+
     // Header functions
     public function AddHeader(string $HeaderName, string $HeaderValue):void {
-        $this->headers[] = new RequestHeader($HeaderName, $HeaderValue);
+        $this->headers[] = sprintf('%s: %s', $HeaderName, $HeaderValue);
     }
 
     public function ContentType(string $contentType):void {
@@ -140,5 +155,25 @@ class Request {
 
     public function Accept(string $acceptType):void {
         $this->AddHeader('Accept', $acceptType);
+    }
+
+    // Auth
+    public function Authenticate(string $user_key, string $password_key):void {
+        $this->Post();
+        $this->Accept('application/json');
+        $this->ContentType('application/json');
+        $this->EndPoint('/api/login');
+        $this->AddParameter($user_key, $this->user);
+        $this->AddParameter($password_key, $this->password);
+        $this->Execute();
+        $res = $this->Response();
+        
+        if($res->StatusCode() !== 200) throw new Exception($res->RawResponse());
+    }
+
+    private function CheckResponseForToken():void {
+        $response = $this->response->AsJson();
+        if(!isset($response->token)) return;
+        $this->AddHeader('Authorization', sprintf('Bearer %s', $response->token));
     }
 }

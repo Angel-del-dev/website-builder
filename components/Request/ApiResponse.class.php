@@ -25,4 +25,10 @@ class ApiResponse {
     public function StatusCode():int { return $this->status_code; }
     public function RawResponse():string { return $this->response; }
     public function Error():string { return $this->error; }
+
+    public function AsJson():stdClass {
+        $response = json_decode($this->response) ?? new stdClass();
+        if(!isset($response->data)) return $response;
+        return json_decode($response->data);
+    }
 }
