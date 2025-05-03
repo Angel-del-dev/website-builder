@@ -24,13 +24,14 @@ class Page extends BackofficePage {
         $this->EndGenericNav();
         $h1 = $this->Renderer->H1('Testing page');
         $h1->class = ' w-100 flex-grow-1 flex justify-center align-center m-0 p-0 ';
-        
+        print_r('<pre>');
         $req = new Media();
         $req->Debug();
         $req->Authenticate('username', 'password');
         $req->Post();
-        $req->EndPoint('/file');
-        $req->ContentType('application/json');
+        $req->EndPoint('/file/add-from-string');
+        $req->AddFile("filestring", "{$_SERVER['DOCUMENT_ROOT']}/../backoffice/test/test.png");
+        $req->AddParameter("mimetype", "image/png");
         $req->Execute();
         $res = $req->Response();
 

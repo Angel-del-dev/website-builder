@@ -74,15 +74,19 @@ class Request {
         $ch = curl_init(sprintf("%s%s", $this->domain, $this->endpoint));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         if($canContainParmeters) {
-            $params = $this->requestHasFiles ? $this->parameters : json_encode($this->parameters);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            if ($this->requestHasFiles) {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, (array)$this->parameters);
+            } else {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($this->parameters));
+            }
         }
 
         $MethodHeader = $this->GetMethodHeader();
 
         if(count($MethodHeader) === 2) curl_setopt($ch, $MethodHeader[0], $MethodHeader[1]);
-        if(count($this->headers) > 0) curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
-        
+        if(count($this->headers) > 0){
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $this->headers);
+        }
         if($this->debug) {
             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
             curl_setopt($ch, CURLOPT_VERBOSE, true);
@@ -139,9 +143,9 @@ class Request {
         $this->parameters[$name] = $value;
     }
 
-    public function AddFile(string $name, string $file_route, string $type='application/octet-stream'):void {
-        $this->parameters[$name] = new CURLFile($file_route, $type, uniqid());
-        $this->requestHasFiles = true;
+    public function AddFile(string $name, string $file_route):void {
+        $this->parameters[$name] = base64_encode(file_get_contents($file_route));
+        $this->ContentType('application/json');
     }
 
     // Header functions
