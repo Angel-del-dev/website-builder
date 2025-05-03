@@ -28,11 +28,12 @@ class Page extends BackofficePage {
         $req = new Media();
         $req->Get();
         $req->Accept('image/png');
-        $req->EndPoint('/file2/23');
+        $req->EndPoint('/file/23');
         $req->Execute();
         $res = $req->Response();
 
         print_r($res->StatusCode());
+        print_r($res->RawResponse());
         exit;
     }
 }

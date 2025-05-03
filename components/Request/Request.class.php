@@ -78,9 +78,9 @@ class Request {
         if(count($MethodHeader) === 2) curl_setopt($ch, $MethodHeader[0], $MethodHeader[1]);
 
         $server_response = curl_exec($ch);
-
         $this->response->SetStatusCode(curl_getinfo($ch, CURLINFO_HTTP_CODE));
         $this->response->SetResponse($server_response);
+        $this->response->SetError(curl_error($ch));
 
         $this->AfterExecute();
     }
