@@ -64,6 +64,15 @@ const ask_create = () => {
     });
 }
 
+const confirm_domain_validation = async Domain => {
+    await Request({
+        url: `/${BACKOFFICE_PREFIX}/diagnostics/domains/validate`,
+        method: 'POST',
+        data: { Domain }
+    });
+    location.reload();
+};
+
 const request_domain_validation = async e =>{
     const DomainNode = e.target.closest('[domain]');
     if(DomainNode === null) return;
@@ -83,7 +92,7 @@ const request_domain_validation = async e =>{
     Confirm({
         title: getTranslation('backoffice-validate-domain-title'),
         text: `${getTranslation('backoffice-validate-domain').replace('%s', `'${Domain}/tools.d'`)}<br /><textarea disabled style='height: 20vmin;border: 1px solid lightgray; padding: 5px; border-radius: 5px;width: 100%;resize: vertical;color: var(--red)'>${Verificator}</textarea>`,
-        onConfirm: () => null
+        onConfirm: () => confirm_domain_validation(Domain)
     })
 }
 

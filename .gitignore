@@ -1,2 +1,6 @@
 initial.cfg
 .log
+
+components/Diagnostics.plugin/spider/*.ini
+components/Diagnostics.plugin/spider/*.exe
+components/Diagnostics.plugin/spider/*.dll
