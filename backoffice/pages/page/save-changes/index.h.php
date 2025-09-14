@@ -22,5 +22,12 @@ class Page extends BackofficePage {
         }
        
         PageModel::EditContents($params['Page'], $params['Contents']);
+
+         require_once(sprintf('%s/../components/Editor.plugin/Editor.class.php', $_SERVER['DOCUMENT_ROOT']));
+
+        $this->AddResource('style', '/css/backoffice/plugins/Editor.css');
+        $this->AddResource('script', '/js/plugins/editor/editor.inc.js', true);
+
+        $Compiled = EditorCreator::Init($params)->Compile();
     }
 }

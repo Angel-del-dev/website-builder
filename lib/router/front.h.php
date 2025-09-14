@@ -8,7 +8,7 @@ class FrontRouter extends Router{
     }
 
     public function Handle(array $uri) {
-        print_r('TODO');
+        header(sprintf('Location: /%s/home', BACKOFFICE_PREFIX));
         exit;
     }
 }

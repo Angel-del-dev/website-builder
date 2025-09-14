@@ -264,5 +264,17 @@
     "editor-property-direction": {
         "en": "Direction",
         "es": "Dirección"
+    },
+    "menu-section-diagnostics": {
+        "en": "Diagnostics",
+        "es": "Diagnósticos"
+    },
+    "menu-entries-diagnostics": {
+        "en": "Diagnostics",
+        "es": "Diagnósticos"
+    },
+    "menu-entries-domains": {
+        "en": "Domains",
+        "es": "Dominios"
     }
 }

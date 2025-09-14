@@ -28,10 +28,9 @@ class Page extends BackofficePage {
         $req = new Media();
         $req->Debug();
         $req->Authenticate('username', 'password');
-        $req->Post();
-        $req->EndPoint('/file/add-from-string');
-        $req->AddFile("filestring", "{$_SERVER['DOCUMENT_ROOT']}/../backoffice/test/test.png");
-        $req->AddParameter("mimetype", "image/png");
+        $req->Delete();
+        $req->EndPoint('/file/unlink/bXxQ3gZYkpY1lVlTXIFhjsoWqZUGWHVheUJvnd26LeVs69U0o6ZO8t6rOPFdeLHCm0JpOQxI8j5iH4mtkfkRGky1O9IUgkCE5V9Z');
+        
         $req->Execute();
         $res = $req->Response();
 

@@ -298,6 +298,27 @@ class Editor {
 
         return $html;
     }
+
+    public function Compile($compiled_style = ''):string {
+        $base_route = "{$_SERVER['DOCUMENT_ROOT']}/../components/Editor.plugin/components";
+        $i = 0;
+        foreach($this->params as $element) {
+            if(!is_dir("{$base_route}/{$element->type}")) continue;
+            if(!is_file("{$base_route}/{$element->type}/component.class.php")) continue;
+            require_once("{$base_route}/{$element->type}/component.class.php");
+            
+            $component = new $element->type($element, true);
+            $compiled_style .= $component->CompileCss();
+            
+            if(isset($element->children) && $element->children !== []) {
+                $compiled_style = $this->Compile($compiled_style);
+            }
+            
+            
+        }
+
+        return $compiled_style;
+    }
 }
 
 class EditorCreator {
