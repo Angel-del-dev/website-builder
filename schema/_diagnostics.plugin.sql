@@ -4,12 +4,13 @@ DROP TABLE IF EXISTS DIAGNOSTIC_TRACE;
 
 DELETE FROM PLUGINS WHERE NAME = 'DIAGNOSTICS';
 DELETE FROM MENUSECTIONS WHERE TRANSLATIONCODE IN ('menu-section-diagnostics');
-DELETE FROM MENUENTRIES WHERE TRANSLATIONCODE IN ('menu-entries-diagnostics');
+DELETE FROM MENUENTRIES WHERE TRANSLATIONCODE IN ('menu-entries-diagnostics', 'menu-entries-domains', 'menu-entries-events');
 
 INSERT INTO PLUGINS(PLUGIN, NAME) VALUES ('DIAGNOSTICS', 'diagnostics-name');
 INSERT INTO MENUSECTIONS (TRANSLATIONCODE, PLUGIN) VALUES ('menu-section-diagnostics', 'DIAGNOSTICS');
 INSERT INTO MENUENTRIES (TRANSLATIONCODE, SLUG, SECTION, PLUGIN) VALUES ('menu-entries-diagnostics', '/diagnostics', 'menu-section-diagnostics', 'DIAGNOSTICS');
 INSERT INTO MENUENTRIES (TRANSLATIONCODE, SLUG, SECTION, PLUGIN) VALUES ('menu-entries-domains', '/diagnostics/domains', 'menu-section-diagnostics', 'DIAGNOSTICS');
+INSERT INTO MENUENTRIES (TRANSLATIONCODE, SLUG, SECTION, PLUGIN) VALUES ('menu-entries-events', '/diagnostics/events', 'menu-section-diagnostics', 'DIAGNOSTICS');
 
 CREATE TABLE DIAGNOSTICS_DOMAINS(
     DOMAIN VARCHAR(255),

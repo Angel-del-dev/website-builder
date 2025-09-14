@@ -277,6 +277,10 @@
         "en": "Domains",
         "es": "Dominios"
     },
+    "menu-entries-events": {
+        "en": "Events",
+        "es": "Eventos"
+    },
     "backoffice-domain": {
         "en": "Domain",
         "es": "Dominio"
