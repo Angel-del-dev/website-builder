@@ -276,5 +276,25 @@
     "menu-entries-domains": {
         "en": "Domains",
         "es": "Dominios"
+    },
+    "backoffice-domain": {
+        "en": "Domain",
+        "es": "Dominio"
+    },
+    "backoffice-add-domain": {
+        "en": "Add domain",
+        "es": "Añadir dominio"
+    },
+    "backoffice-remove-domain": {
+        "en": "Would you like to remove the selected domain? All diagnostics and reports will be lost",
+        "es": "¿Quiere eliminar el dominio seleccionado? Todos los diagnosticos e informes serán eliminados"
+    },
+    "backoffice-validate-domain-title": {
+        "en": "Domain validator",
+        "es": "Validador de dominios"
+    },
+    "backoffice-validate-domain": {
+        "en": "In order to validate the selected domain, the following code must be placed in %s and the file must be accessible. Once done the confirm button should be pressed",
+        "es": "Para validar el dominio seleccionado, el siguiente código debe ser accesible en %s. Si el archivo ya es visible debe apretar el botón de confirmar"
     }
 }
